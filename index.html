@@ -68,16 +68,21 @@
             <h1 class="font-display text-lg sm:text-xl font-semibold tracking-tight">Stakeholder map</h1>
           </div>
 
-          <!-- Mobile: Import/Export buttons -->
+          <!-- Mobile: Import/Export/Help buttons -->
           <div class="flex items-center gap-1 sm:hidden">
-            <button id="import-btn-mobile" class="p-2 text-muted hover:text-ink hover:bg-cream rounded-lg transition-all" title="Import">
+            <button id="import-btn-mobile" class="p-2 text-muted hover:text-ink hover:bg-cream rounded-lg transition-all" title="Import map">
               <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
               </svg>
             </button>
-            <button id="export-menu-btn-mobile" class="p-2 text-muted hover:text-ink hover:bg-cream rounded-lg transition-all" title="Export">
+            <button id="export-menu-btn-mobile" class="p-2 text-muted hover:text-ink hover:bg-cream rounded-lg transition-all" title="Export map">
               <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
+              </svg>
+            </button>
+            <button id="help-btn-mobile" class="p-2 text-muted hover:text-ink hover:bg-cream rounded-lg transition-all" title="Help & tips">
+              <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z" />
               </svg>
             </button>
           </div>
@@ -106,7 +111,7 @@
           </button>
         </div>
 
-        <!-- Desktop: Import/Export buttons -->
+        <!-- Desktop: Import/Export/Help buttons -->
         <div class="hidden sm:flex items-center gap-2">
           <button id="import-btn" class="text-sm px-3.5 py-2 text-muted hover:text-ink hover:bg-cream rounded-lg transition-all">
             Import
@@ -116,6 +121,12 @@
             <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
               <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
             </svg>
+          </button>
+          <button id="help-btn" class="text-sm px-3.5 py-2 text-muted hover:text-ink hover:bg-cream rounded-lg transition-all flex items-center gap-1.5" title="Help & tips (?)">
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z" />
+            </svg>
+            Help
           </button>
         </div>
       </div>
@@ -211,23 +222,23 @@
             Add
           </button>
           <div class="flex items-center gap-1">
-            <button id="zoom-out-btn-mobile" class="p-2.5 text-muted hover:text-ink hover:bg-cream rounded-xl transition-all" title="Zoom out">
+            <button id="zoom-out-btn-mobile" class="p-2.5 text-muted hover:text-ink hover:bg-cream rounded-xl transition-all" title="Zoom out" aria-label="Zoom out">
               <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607zM13.5 10.5h-6" />
               </svg>
             </button>
-            <button id="zoom-in-btn-mobile" class="p-2.5 text-muted hover:text-ink hover:bg-cream rounded-xl transition-all" title="Zoom in">
+            <button id="zoom-in-btn-mobile" class="p-2.5 text-muted hover:text-ink hover:bg-cream rounded-xl transition-all" title="Zoom in" aria-label="Zoom in">
               <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607zM10.5 7.5v6m3-3h-6" />
               </svg>
             </button>
-            <button id="zoom-reset-btn-mobile" class="p-2.5 text-muted hover:text-ink hover:bg-cream rounded-xl transition-all" title="Reset view">
+            <button id="zoom-reset-btn-mobile" class="p-2.5 text-muted hover:text-ink hover:bg-cream rounded-xl transition-all" title="Fit all stakeholders in view" aria-label="Reset view to fit all">
               <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 9V4.5M9 9H4.5M9 9L3.75 3.75M9 15v4.5M9 15H4.5M9 15l-5.25 5.25M15 9h4.5M15 9V4.5M15 9l5.25-5.25M15 15h4.5M15 15v4.5m0-4.5l5.25 5.25" />
               </svg>
             </button>
           </div>
-          <button id="legend-toggle-btn" class="p-2.5 text-muted hover:text-ink hover:bg-cream rounded-xl transition-all" title="Show legend">
+          <button id="legend-toggle-btn" class="p-2.5 text-muted hover:text-ink hover:bg-cream rounded-xl transition-all" title="Show category legend" aria-label="Show legend">
             <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
               <path stroke-linecap="round" stroke-linejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z" />
             </svg>
@@ -243,17 +254,17 @@
             Add stakeholder
           </button>
           <div class="w-px h-6 bg-stone"></div>
-          <button id="zoom-in-btn" class="p-2 text-muted hover:text-ink hover:bg-cream rounded-lg transition-all" title="Zoom in">
+          <button id="zoom-in-btn" class="p-2 text-muted hover:text-ink hover:bg-cream rounded-lg transition-all" title="Zoom in (scroll up)" aria-label="Zoom in">
             <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
               <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607zM10.5 7.5v6m3-3h-6" />
             </svg>
           </button>
-          <button id="zoom-out-btn" class="p-2 text-muted hover:text-ink hover:bg-cream rounded-lg transition-all" title="Zoom out">
+          <button id="zoom-out-btn" class="p-2 text-muted hover:text-ink hover:bg-cream rounded-lg transition-all" title="Zoom out (scroll down)" aria-label="Zoom out">
             <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
               <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607zM13.5 10.5h-6" />
             </svg>
           </button>
-          <button id="zoom-reset-btn" class="p-2 text-muted hover:text-ink hover:bg-cream rounded-lg transition-all" title="Reset view">
+          <button id="zoom-reset-btn" class="p-2 text-muted hover:text-ink hover:bg-cream rounded-lg transition-all" title="Fit all stakeholders in view" aria-label="Reset view to fit all">
             <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
               <path stroke-linecap="round" stroke-linejoin="round" d="M9 9V4.5M9 9H4.5M9 9L3.75 3.75M9 15v4.5M9 15H4.5M9 15l-5.25 5.25M15 9h4.5M15 9V4.5M15 9l5.25-5.25M15 15h4.5M15 15v4.5m0-4.5l5.25 5.25" />
             </svg>
@@ -261,41 +272,76 @@
         </div>
 
         <!-- Legend (desktop: always visible, mobile: toggleable) -->
-        <div id="canvas-legend" class="hidden sm:block absolute top-4 right-4 z-10 bg-white/90 backdrop-blur-sm rounded-xl shadow-lg shadow-ink/5 p-3 sm:p-4 border border-stone/50">
+        <div id="canvas-legend" class="hidden sm:block absolute top-4 right-4 z-10 bg-white/90 backdrop-blur-sm rounded-xl shadow-lg shadow-ink/5 p-3 sm:p-4 border border-stone/50 max-w-xs">
           <div class="flex items-center justify-between mb-2 sm:mb-3">
             <div class="text-xs font-medium text-muted uppercase tracking-wider">Categories</div>
-            <button id="legend-close-btn" class="sm:hidden p-1 text-muted hover:text-ink rounded transition-all">
-              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
+            <div class="flex items-center gap-1">
+              <button id="legend-expand-btn" class="hidden sm:block p-1 text-muted hover:text-ink rounded transition-all" title="Show descriptions">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </button>
+              <button id="legend-close-btn" class="sm:hidden p-1 text-muted hover:text-ink rounded transition-all">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
           </div>
-          <div class="grid grid-cols-2 sm:grid-cols-1 gap-2 sm:space-y-2.5 text-sm">
-            <div class="flex items-center gap-2">
+          <div id="legend-compact" class="grid grid-cols-2 sm:grid-cols-1 gap-2 sm:space-y-2.5 text-sm">
+            <div class="flex items-center gap-2 legend-item cursor-pointer hover:bg-cream/50 rounded px-1 -mx-1 py-0.5" data-category="ally">
               <span class="w-3 h-3 rounded-full bg-ally shadow-sm flex-shrink-0"></span>
               <span class="text-ink/80">Ally</span>
             </div>
-            <div class="flex items-center gap-2">
+            <div class="flex items-center gap-2 legend-item cursor-pointer hover:bg-cream/50 rounded px-1 -mx-1 py-0.5" data-category="advocate">
               <span class="w-3 h-3 rounded-full bg-advocate shadow-sm flex-shrink-0"></span>
               <span class="text-ink/80">Advocate</span>
             </div>
-            <div class="flex items-center gap-2">
+            <div class="flex items-center gap-2 legend-item cursor-pointer hover:bg-cream/50 rounded px-1 -mx-1 py-0.5" data-category="decisionmaker">
               <span class="w-3 h-3 rounded-full bg-decisionmaker shadow-sm flex-shrink-0"></span>
               <span class="text-ink/80 whitespace-nowrap">Decision maker</span>
             </div>
-            <div class="flex items-center gap-2">
+            <div class="flex items-center gap-2 legend-item cursor-pointer hover:bg-cream/50 rounded px-1 -mx-1 py-0.5" data-category="obstacle">
               <span class="w-3 h-3 rounded-full bg-obstacle shadow-sm flex-shrink-0"></span>
               <span class="text-ink/80">Obstacle</span>
             </div>
-            <div class="flex items-center gap-2">
+            <div class="flex items-center gap-2 legend-item cursor-pointer hover:bg-cream/50 rounded px-1 -mx-1 py-0.5" data-category="dependency">
               <span class="w-3 h-3 rounded-full bg-dependency shadow-sm flex-shrink-0"></span>
               <span class="text-ink/80">Dependency</span>
             </div>
-            <div class="flex items-center gap-2">
+            <div class="flex items-center gap-2 legend-item cursor-pointer hover:bg-cream/50 rounded px-1 -mx-1 py-0.5" data-category="opportunity">
               <span class="w-3 h-3 rounded-full bg-opportunity shadow-sm flex-shrink-0"></span>
               <span class="text-ink/80">Opportunity</span>
             </div>
           </div>
+          <!-- Expanded legend with descriptions -->
+          <div id="legend-expanded" class="hidden space-y-2 text-sm">
+            <div class="flex items-start gap-2 p-1.5 rounded-lg bg-ally-light/50">
+              <span class="w-3 h-3 rounded-full bg-ally shadow-sm flex-shrink-0 mt-0.5"></span>
+              <div><span class="text-ink font-medium">Ally</span><p class="text-xs text-muted">Supports your work</p></div>
+            </div>
+            <div class="flex items-start gap-2 p-1.5 rounded-lg bg-advocate-light/50">
+              <span class="w-3 h-3 rounded-full bg-advocate shadow-sm flex-shrink-0 mt-0.5"></span>
+              <div><span class="text-ink font-medium">Advocate</span><p class="text-xs text-muted">Champions you to others</p></div>
+            </div>
+            <div class="flex items-start gap-2 p-1.5 rounded-lg bg-decisionmaker-light/50">
+              <span class="w-3 h-3 rounded-full bg-decisionmaker shadow-sm flex-shrink-0 mt-0.5"></span>
+              <div><span class="text-ink font-medium">Decision maker</span><p class="text-xs text-muted">Has authority over key decisions</p></div>
+            </div>
+            <div class="flex items-start gap-2 p-1.5 rounded-lg bg-obstacle-light/50">
+              <span class="w-3 h-3 rounded-full bg-obstacle shadow-sm flex-shrink-0 mt-0.5"></span>
+              <div><span class="text-ink font-medium">Obstacle</span><p class="text-xs text-muted">May block your progress</p></div>
+            </div>
+            <div class="flex items-start gap-2 p-1.5 rounded-lg bg-dependency-light/50">
+              <span class="w-3 h-3 rounded-full bg-dependency shadow-sm flex-shrink-0 mt-0.5"></span>
+              <div><span class="text-ink font-medium">Dependency</span><p class="text-xs text-muted">You rely on them</p></div>
+            </div>
+            <div class="flex items-start gap-2 p-1.5 rounded-lg bg-opportunity-light/50">
+              <span class="w-3 h-3 rounded-full bg-opportunity shadow-sm flex-shrink-0 mt-0.5"></span>
+              <div><span class="text-ink font-medium">Opportunity</span><p class="text-xs text-muted">Worth developing</p></div>
+            </div>
+          </div>
+          <p class="text-xs text-muted/60 mt-2 hidden sm:block">Click ? for descriptions</p>
         </div>
 
         <!-- SVG Canvas -->
@@ -363,7 +409,17 @@
             </svg>
           </div>
           <h3 class="font-display text-base sm:text-lg font-semibold text-ink mb-2">No stakeholders yet</h3>
-          <p class="text-sm text-muted px-4">Add your first stakeholder to start building your map.</p>
+          <p class="text-sm text-muted px-4 mb-4">Add your first stakeholder to start building your map.</p>
+          <div class="max-w-sm mx-auto px-4">
+            <div class="bg-cream/50 rounded-xl p-4 text-left">
+              <p class="text-xs font-medium text-ink mb-2">Getting started tips:</p>
+              <ul class="text-xs text-muted space-y-1">
+                <li>Think about people who influence your project</li>
+                <li>Include both supporters and potential blockers</li>
+                <li>Add notes to remember key relationship details</li>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -407,21 +463,23 @@
                 <label for="stakeholder-category" class="block text-sm font-medium text-ink mb-1.5">Category <span class="text-obstacle">*</span></label>
                 <select id="stakeholder-category" name="category" required class="w-full rounded-lg border-stone bg-cream/50 focus:border-ink focus:ring-ink/20 transition-colors py-2.5">
                   <option value="">Select...</option>
-                  <option value="ally">Ally</option>
-                  <option value="advocate">Advocate</option>
-                  <option value="decisionmaker">Decision maker</option>
-                  <option value="obstacle">Obstacle</option>
-                  <option value="dependency">Dependency</option>
-                  <option value="opportunity">Opportunity</option>
+                  <option value="ally">Ally - Supports your work</option>
+                  <option value="advocate">Advocate - Champions you to others</option>
+                  <option value="decisionmaker">Decision maker - Has authority</option>
+                  <option value="obstacle">Obstacle - May block progress</option>
+                  <option value="dependency">Dependency - You rely on them</option>
+                  <option value="opportunity">Opportunity - Worth developing</option>
                 </select>
+                <p class="text-xs text-muted mt-1">How does this person relate to your work?</p>
               </div>
               <div>
                 <label for="stakeholder-influence" class="block text-sm font-medium text-ink mb-1.5">Influence</label>
                 <select id="stakeholder-influence" name="influence" class="w-full rounded-lg border-stone bg-cream/50 focus:border-ink focus:ring-ink/20 transition-colors py-2.5">
-                  <option value="medium">Medium</option>
-                  <option value="high">High</option>
-                  <option value="low">Low</option>
+                  <option value="medium">Medium - Has input on decisions</option>
+                  <option value="high">High - Can approve or block</option>
+                  <option value="low">Low - Limited direct impact</option>
                 </select>
+                <p class="text-xs text-muted mt-1">How much can they affect your project?</p>
               </div>
             </div>
 
@@ -433,16 +491,21 @@
             <div>
               <label for="stakeholder-notes" class="block text-sm font-medium text-ink mb-1.5">Notes</label>
               <textarea id="stakeholder-notes" name="notes" rows="2" class="w-full rounded-lg border-stone bg-cream/50 focus:border-ink focus:ring-ink/20 transition-colors placeholder:text-muted resize-none py-2.5" placeholder="Context, history, relationship details..."></textarea>
+              <p class="text-xs text-muted mt-1">Background info, past interactions, current status of relationship</p>
             </div>
 
             <div>
               <label for="stakeholder-tips" class="block text-sm font-medium text-ink mb-1.5">Interaction tips</label>
               <textarea id="stakeholder-tips" name="interactionTips" rows="2" class="w-full rounded-lg border-stone bg-cream/50 focus:border-ink focus:ring-ink/20 transition-colors placeholder:text-muted resize-none py-2.5" placeholder="Best way to reach them, preferences..."></textarea>
+              <p class="text-xs text-muted mt-1">Preferred contact method, best times, communication style</p>
             </div>
 
-            <div class="flex items-center gap-2 pt-1">
-              <input type="checkbox" id="stakeholder-private" name="private" class="rounded border-stone text-ink focus:ring-ink/20 w-4 h-4">
-              <label for="stakeholder-private" class="text-sm text-muted">Hide notes in shared exports</label>
+            <div class="flex items-start gap-2 pt-1">
+              <input type="checkbox" id="stakeholder-private" name="private" class="rounded border-stone text-ink focus:ring-ink/20 w-4 h-4 mt-0.5">
+              <div>
+                <label for="stakeholder-private" class="text-sm text-muted">Hide notes in shared exports</label>
+                <p class="text-xs text-muted/70">Notes will be excluded from PDF, HTML, and Markdown exports</p>
+              </div>
             </div>
           </div>
 
@@ -499,9 +562,12 @@
               </select>
             </div>
 
-            <div class="flex items-center gap-2">
-              <input type="checkbox" id="new-map-private" name="private" class="rounded border-stone text-ink focus:ring-ink/20 w-4 h-4">
-              <label for="new-map-private" class="text-sm text-muted">Private map (watermark on exports)</label>
+            <div class="flex items-start gap-2">
+              <input type="checkbox" id="new-map-private" name="private" class="rounded border-stone text-ink focus:ring-ink/20 w-4 h-4 mt-0.5">
+              <div>
+                <label for="new-map-private" class="text-sm text-muted">Private map</label>
+                <p class="text-xs text-muted/70">Adds "CONFIDENTIAL" watermark to exported documents</p>
+              </div>
             </div>
           </div>
 
@@ -533,36 +599,51 @@
         </button>
       </div>
       <div class="py-2" role="menu">
-        <button id="export-json-btn" class="w-full text-left px-4 py-3 sm:py-2.5 text-sm text-ink hover:bg-cream transition-colors flex items-center gap-3" role="menuitem">
-          <svg class="w-5 h-5 sm:w-4 sm:h-4 text-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+        <button id="export-json-btn" class="w-full text-left px-4 py-3 sm:py-2.5 text-sm text-ink hover:bg-cream transition-colors flex items-start gap-3" role="menuitem">
+          <svg class="w-5 h-5 sm:w-4 sm:h-4 text-muted flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
             <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 6.75L22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3l-4.5 16.5" />
           </svg>
-          Export as JSON
+          <div>
+            <div>Export as JSON</div>
+            <div class="text-xs text-muted font-normal">Backup data or transfer to another browser</div>
+          </div>
         </button>
-        <button id="export-pdf-btn" class="w-full text-left px-4 py-3 sm:py-2.5 text-sm text-ink hover:bg-cream transition-colors flex items-center gap-3" role="menuitem">
-          <svg class="w-5 h-5 sm:w-4 sm:h-4 text-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+        <button id="export-pdf-btn" class="w-full text-left px-4 py-3 sm:py-2.5 text-sm text-ink hover:bg-cream transition-colors flex items-start gap-3" role="menuitem">
+          <svg class="w-5 h-5 sm:w-4 sm:h-4 text-muted flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
             <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
           </svg>
-          Export field guide (PDF)
+          <div>
+            <div>Export field guide (PDF)</div>
+            <div class="text-xs text-muted font-normal">Printable guide organized by category</div>
+          </div>
         </button>
-        <button id="export-html-btn" class="w-full text-left px-4 py-3 sm:py-2.5 text-sm text-ink hover:bg-cream transition-colors flex items-center gap-3" role="menuitem">
-          <svg class="w-5 h-5 sm:w-4 sm:h-4 text-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+        <button id="export-html-btn" class="w-full text-left px-4 py-3 sm:py-2.5 text-sm text-ink hover:bg-cream transition-colors flex items-start gap-3" role="menuitem">
+          <svg class="w-5 h-5 sm:w-4 sm:h-4 text-muted flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
             <path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418" />
           </svg>
-          Export standalone HTML
+          <div>
+            <div>Export standalone HTML</div>
+            <div class="text-xs text-muted font-normal">Share via email or host on any web server</div>
+          </div>
         </button>
-        <button id="export-md-btn" class="w-full text-left px-4 py-3 sm:py-2.5 text-sm text-ink hover:bg-cream transition-colors flex items-center gap-3" role="menuitem">
-          <svg class="w-5 h-5 sm:w-4 sm:h-4 text-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+        <button id="export-md-btn" class="w-full text-left px-4 py-3 sm:py-2.5 text-sm text-ink hover:bg-cream transition-colors flex items-start gap-3" role="menuitem">
+          <svg class="w-5 h-5 sm:w-4 sm:h-4 text-muted flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
             <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
           </svg>
-          Export as Markdown
+          <div>
+            <div>Export as Markdown</div>
+            <div class="text-xs text-muted font-normal">Import into docs, wikis, or note-taking apps</div>
+          </div>
         </button>
         <div class="my-2 border-t border-stone"></div>
-        <button id="export-all-btn" class="w-full text-left px-4 py-3 sm:py-2.5 text-sm text-ink hover:bg-cream transition-colors flex items-center gap-3" role="menuitem">
-          <svg class="w-5 h-5 sm:w-4 sm:h-4 text-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+        <button id="export-all-btn" class="w-full text-left px-4 py-3 sm:py-2.5 text-sm text-ink hover:bg-cream transition-colors flex items-start gap-3" role="menuitem">
+          <svg class="w-5 h-5 sm:w-4 sm:h-4 text-muted flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
             <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5m8.25 3v6.75m0 0l-3-3m3 3l3-3M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
           </svg>
-          Export all maps (JSON)
+          <div>
+            <div>Export all maps (JSON)</div>
+            <div class="text-xs text-muted font-normal">Full backup of all your stakeholder maps</div>
+          </div>
         </button>
       </div>
       <!-- Safe area padding for mobile -->
@@ -628,6 +709,165 @@
             </button>
           </div>
         </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Help modal -->
+  <div id="help-modal" class="hidden fixed inset-0 z-50 overflow-y-auto">
+    <div class="flex items-end sm:items-center justify-center min-h-screen px-0 sm:px-4 py-0 sm:py-8">
+      <div class="fixed inset-0 bg-ink/40 backdrop-blur-sm transition-opacity" id="help-backdrop"></div>
+
+      <div class="relative bg-white rounded-t-2xl sm:rounded-2xl shadow-2xl shadow-ink/20 w-full max-w-2xl transform transition-all max-h-[90vh] sm:max-h-[80vh] flex flex-col">
+        <div class="px-4 sm:px-6 pt-4 sm:pt-6 pb-2 flex items-center justify-between flex-shrink-0 border-b border-stone">
+          <h3 class="font-display text-lg sm:text-xl font-semibold text-ink">Help & Getting Started</h3>
+          <button type="button" id="help-close-btn" class="p-2 -mr-2 text-muted hover:text-ink rounded-lg transition-all">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+
+        <div class="px-4 sm:px-6 py-4 sm:py-6 overflow-y-auto flex-1 space-y-6">
+          <!-- Quick Start -->
+          <div>
+            <h4 class="font-display font-semibold text-ink mb-3 flex items-center gap-2">
+              <span class="w-6 h-6 bg-ink text-white rounded-full text-xs flex items-center justify-center">1</span>
+              Quick Start
+            </h4>
+            <ol class="text-sm text-muted space-y-2 ml-8 list-decimal">
+              <li><strong class="text-ink">Create a map</strong> - Click "New map" or choose a template from the welcome screen</li>
+              <li><strong class="text-ink">Add stakeholders</strong> - Click "Add stakeholder" or double-click anywhere on the canvas</li>
+              <li><strong class="text-ink">Create connections</strong> - Right-click a stakeholder and select "Add connection"</li>
+              <li><strong class="text-ink">Export your work</strong> - Use the Export menu to download as PDF, HTML, or Markdown</li>
+            </ol>
+          </div>
+
+          <!-- Understanding Categories -->
+          <div>
+            <h4 class="font-display font-semibold text-ink mb-3 flex items-center gap-2">
+              <span class="w-6 h-6 bg-ink text-white rounded-full text-xs flex items-center justify-center">2</span>
+              Understanding Categories
+            </h4>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm">
+              <div class="flex items-start gap-2 p-2 rounded-lg bg-ally-light">
+                <span class="w-3 h-3 rounded-full bg-ally mt-0.5 flex-shrink-0"></span>
+                <div><strong class="text-ally-dark">Ally</strong><p class="text-ally-dark/70">Supports your work and goals</p></div>
+              </div>
+              <div class="flex items-start gap-2 p-2 rounded-lg bg-advocate-light">
+                <span class="w-3 h-3 rounded-full bg-advocate mt-0.5 flex-shrink-0"></span>
+                <div><strong class="text-advocate-dark">Advocate</strong><p class="text-advocate-dark/70">Actively champions you to others</p></div>
+              </div>
+              <div class="flex items-start gap-2 p-2 rounded-lg bg-decisionmaker-light">
+                <span class="w-3 h-3 rounded-full bg-decisionmaker mt-0.5 flex-shrink-0"></span>
+                <div><strong class="text-decisionmaker-dark">Decision maker</strong><p class="text-decisionmaker-dark/70">Has authority over key decisions</p></div>
+              </div>
+              <div class="flex items-start gap-2 p-2 rounded-lg bg-obstacle-light">
+                <span class="w-3 h-3 rounded-full bg-obstacle mt-0.5 flex-shrink-0"></span>
+                <div><strong class="text-obstacle-dark">Obstacle</strong><p class="text-obstacle-dark/70">May block or slow your progress</p></div>
+              </div>
+              <div class="flex items-start gap-2 p-2 rounded-lg bg-dependency-light">
+                <span class="w-3 h-3 rounded-full bg-dependency mt-0.5 flex-shrink-0"></span>
+                <div><strong class="text-dependency-dark">Dependency</strong><p class="text-dependency-dark/70">You rely on them to get work done</p></div>
+              </div>
+              <div class="flex items-start gap-2 p-2 rounded-lg bg-opportunity-light">
+                <span class="w-3 h-3 rounded-full bg-opportunity mt-0.5 flex-shrink-0"></span>
+                <div><strong class="text-opportunity-dark">Opportunity</strong><p class="text-opportunity-dark/70">Worth investing in this relationship</p></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Influence Levels -->
+          <div>
+            <h4 class="font-display font-semibold text-ink mb-3 flex items-center gap-2">
+              <span class="w-6 h-6 bg-ink text-white rounded-full text-xs flex items-center justify-center">3</span>
+              Influence Levels
+            </h4>
+            <div class="text-sm space-y-2 ml-8">
+              <div class="flex items-start gap-3">
+                <span class="px-2 py-0.5 rounded-full bg-decisionmaker-light text-decisionmaker-dark text-xs font-medium">High</span>
+                <p class="text-muted">Can approve, block, or significantly change your project's direction</p>
+              </div>
+              <div class="flex items-start gap-3">
+                <span class="px-2 py-0.5 rounded-full bg-advocate-light text-advocate-dark text-xs font-medium">Medium</span>
+                <p class="text-muted">Has input on decisions or can influence high-influence stakeholders</p>
+              </div>
+              <div class="flex items-start gap-3">
+                <span class="px-2 py-0.5 rounded-full bg-cream text-muted text-xs font-medium">Low</span>
+                <p class="text-muted">Limited direct impact but may have useful information or connections</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Canvas Controls -->
+          <div>
+            <h4 class="font-display font-semibold text-ink mb-3 flex items-center gap-2">
+              <span class="w-6 h-6 bg-ink text-white rounded-full text-xs flex items-center justify-center">4</span>
+              Canvas Controls
+            </h4>
+            <div class="text-sm space-y-1 ml-8">
+              <p class="text-muted"><strong class="text-ink">Double-click canvas</strong> - Add a new stakeholder at that position</p>
+              <p class="text-muted"><strong class="text-ink">Drag stakeholder</strong> - Move them around the map</p>
+              <p class="text-muted"><strong class="text-ink">Right-click stakeholder</strong> - Edit, add connection, or delete</p>
+              <p class="text-muted"><strong class="text-ink">Scroll wheel</strong> - Zoom in and out</p>
+              <p class="text-muted"><strong class="text-ink">Drag empty space</strong> - Pan around the map</p>
+            </div>
+          </div>
+
+          <!-- Export Formats -->
+          <div>
+            <h4 class="font-display font-semibold text-ink mb-3 flex items-center gap-2">
+              <span class="w-6 h-6 bg-ink text-white rounded-full text-xs flex items-center justify-center">5</span>
+              Export Formats
+            </h4>
+            <div class="text-sm space-y-2 ml-8">
+              <p class="text-muted"><strong class="text-ink">PDF Field Guide</strong> - Printable document organized by category with interaction tips</p>
+              <p class="text-muted"><strong class="text-ink">Standalone HTML</strong> - Share an interactive map via email or web hosting</p>
+              <p class="text-muted"><strong class="text-ink">Markdown</strong> - Import into docs, wikis, or note-taking apps</p>
+              <p class="text-muted"><strong class="text-ink">JSON</strong> - Backup your data or import into another browser</p>
+            </div>
+          </div>
+
+          <!-- Keyboard Shortcuts -->
+          <div>
+            <h4 class="font-display font-semibold text-ink mb-3 flex items-center gap-2">
+              <span class="w-6 h-6 bg-ink text-white rounded-full text-xs flex items-center justify-center">?</span>
+              Keyboard Shortcuts
+            </h4>
+            <div class="grid grid-cols-2 gap-2 text-sm ml-8">
+              <div class="flex items-center gap-2">
+                <kbd class="px-2 py-0.5 bg-cream rounded text-xs font-mono">Esc</kbd>
+                <span class="text-muted">Close modals/menus</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <kbd class="px-2 py-0.5 bg-cream rounded text-xs font-mono">?</kbd>
+                <span class="text-muted">Open this help</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tips -->
+          <div class="bg-cream rounded-xl p-4">
+            <h4 class="font-medium text-ink mb-2 flex items-center gap-2">
+              <svg class="w-4 h-4 text-advocate" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+              </svg>
+              Pro Tips
+            </h4>
+            <ul class="text-sm text-muted space-y-1">
+              <li>Use "Interaction tips" to record how best to communicate with each person</li>
+              <li>Mark notes as private to exclude them from shared exports</li>
+              <li>Templates include example stakeholders to help you get started</li>
+              <li>All data is stored locally in your browser - export regularly for backup</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="px-4 sm:px-6 py-4 bg-cream/50 rounded-b-2xl flex items-center justify-end flex-shrink-0">
+          <button type="button" id="help-done-btn" class="px-5 py-2.5 bg-ink text-white text-sm font-medium rounded-lg hover:bg-ink/80 transition-all active:scale-[0.98]">
+            Got it
+          </button>
+        </div>
       </div>
     </div>
   </div>
