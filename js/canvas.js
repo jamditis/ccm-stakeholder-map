@@ -48,10 +48,15 @@ const Canvas = {
    * Bind canvas events
    */
   bindEvents() {
-    // Zoom controls
+    // Zoom controls (desktop)
     document.getElementById('zoom-in-btn')?.addEventListener('click', () => this.zoom(this.ZOOM_STEP));
     document.getElementById('zoom-out-btn')?.addEventListener('click', () => this.zoom(-this.ZOOM_STEP));
     document.getElementById('zoom-reset-btn')?.addEventListener('click', () => this.resetView());
+
+    // Zoom controls (mobile)
+    document.getElementById('zoom-in-btn-mobile')?.addEventListener('click', () => this.zoom(this.ZOOM_STEP));
+    document.getElementById('zoom-out-btn-mobile')?.addEventListener('click', () => this.zoom(-this.ZOOM_STEP));
+    document.getElementById('zoom-reset-btn-mobile')?.addEventListener('click', () => this.resetView());
 
     // Canvas mouse events
     this.svg.addEventListener('mousedown', (e) => this.handleMouseDown(e));
