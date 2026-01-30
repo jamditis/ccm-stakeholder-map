@@ -10,20 +10,31 @@
   animation: pulse-slow 3s ease-in-out infinite;
 }
 
+/* Canvas SVG - disable Tailwind's "transition: all" which causes instability */
+#map-canvas,
+#canvas-transform,
+#nodes-layer,
+#connections-layer {
+  transition: none !important;
+}
+
 /* Canvas node styles */
 .stakeholder-node {
   cursor: move;
   user-select: none;
-  transition: transform 0.15s ease;
-}
-
-.stakeholder-node:hover {
-  transform: scale(1.05);
+  /* IMPORTANT: Do NOT add transition or transform here - conflicts with SVG
+     transform attribute and causes element instability during hover/click */
 }
 
 .stakeholder-node:hover .node-ring {
+  stroke-width: 5;
+  stroke-opacity: 0.8;
+  transition: stroke-width 0.15s ease, stroke-opacity 0.15s ease;
+}
+
+.stakeholder-node:hover .node-circle {
   stroke-width: 4;
-  stroke-opacity: 0.6;
+  transition: stroke-width 0.15s ease;
 }
 
 .stakeholder-node.selected .node-ring {
