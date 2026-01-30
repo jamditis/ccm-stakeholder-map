@@ -86,13 +86,8 @@ const App = {
     // Legend toggle (mobile)
     this.bindLegendToggle();
 
-    // Import (desktop + mobile)
-    document.getElementById('import-btn')?.addEventListener('click', () => {
-      document.getElementById('import-file-input')?.click();
-    });
-    document.getElementById('import-btn-mobile')?.addEventListener('click', () => {
-      document.getElementById('import-file-input')?.click();
-    });
+    // Import menu (desktop + mobile)
+    this.bindImportMenu();
     document.getElementById('import-file-input')?.addEventListener('change', (e) => this.handleImport(e));
 
     // Help modal (desktop + mobile)
@@ -292,6 +287,68 @@ const App = {
    */
   closeExportMenu() {
     document.getElementById('export-menu')?.classList.add('hidden');
+  },
+
+  /**
+   * Bind import menu events
+   */
+  bindImportMenu() {
+    const importMenuBtn = document.getElementById('import-menu-btn');
+    const importMenuBtnMobile = document.getElementById('import-btn-mobile');
+    const importMenu = document.getElementById('import-menu');
+    const importMenuCloseBtn = document.getElementById('import-menu-close-btn');
+
+    // Desktop import button
+    importMenuBtn?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const rect = importMenuBtn.getBoundingClientRect();
+      // Position for desktop
+      if (window.innerWidth >= 640) {
+        const menuContent = importMenu.querySelector('div:first-child');
+        if (menuContent) {
+          menuContent.style.top = `${rect.bottom + 4}px`;
+          menuContent.style.right = `${window.innerWidth - rect.right}px`;
+        }
+      }
+      importMenu.classList.toggle('hidden');
+    });
+
+    // Mobile import button
+    importMenuBtnMobile?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      importMenu.classList.remove('hidden');
+    });
+
+    // Close button
+    importMenuCloseBtn?.addEventListener('click', () => this.closeImportMenu());
+
+    // Desktop: close on document click
+    document.addEventListener('click', (e) => {
+      if (window.innerWidth >= 640 && !importMenu?.contains(e.target)) {
+        this.closeImportMenu();
+      }
+    });
+
+    // Import JSON button
+    document.getElementById('import-json-btn')?.addEventListener('click', () => {
+      document.getElementById('import-file-input')?.click();
+      this.closeImportMenu();
+    });
+
+    // Download CSV and Get converter buttons close menu on click
+    document.getElementById('download-csv-btn')?.addEventListener('click', () => {
+      this.closeImportMenu();
+    });
+    document.getElementById('get-converter-btn')?.addEventListener('click', () => {
+      this.closeImportMenu();
+    });
+  },
+
+  /**
+   * Close import menu
+   */
+  closeImportMenu() {
+    document.getElementById('import-menu')?.classList.add('hidden');
   },
 
   /**

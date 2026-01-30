@@ -114,8 +114,11 @@
 
         <!-- Desktop: Import/Export/Help buttons -->
         <div class="hidden sm:flex items-center gap-2">
-          <button id="import-btn" class="text-sm px-3.5 py-2 text-muted hover:text-ink hover:bg-cream rounded-lg transition-all">
+          <button id="import-menu-btn" class="text-sm px-3.5 py-2 text-muted hover:text-ink hover:bg-cream rounded-lg transition-all flex items-center gap-1.5">
             Import
+            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
           </button>
           <button id="export-menu-btn" class="text-sm px-3.5 py-2 text-muted hover:text-ink hover:bg-cream rounded-lg transition-all flex items-center gap-1.5">
             Export
@@ -649,6 +652,50 @@
       </div>
       <!-- Safe area padding for mobile -->
       <div class="sm:hidden h-6"></div>
+    </div>
+  </div>
+
+  <!-- Import menu dropdown -->
+  <div id="import-menu" class="hidden fixed z-50">
+    <div class="fixed bottom-0 sm:bottom-auto left-0 right-0 sm:left-auto sm:right-auto w-full sm:w-64 rounded-t-2xl sm:rounded-xl shadow-xl shadow-ink/10 bg-white border-t sm:border border-stone overflow-hidden">
+      <div class="sm:hidden flex items-center justify-between px-4 py-3 border-b border-stone">
+        <span class="font-medium text-ink">Import options</span>
+        <button id="import-menu-close-btn" class="p-1 text-muted hover:text-ink rounded transition-all">
+          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+      <div class="py-2" role="menu">
+        <button id="import-json-btn" class="w-full text-left px-4 py-3 sm:py-2.5 text-sm text-ink hover:bg-cream transition-colors flex items-start gap-3" role="menuitem">
+          <svg class="w-5 h-5 sm:w-4 sm:h-4 text-muted flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
+          </svg>
+          <div>
+            <div>Import JSON file</div>
+            <div class="text-xs text-muted font-normal">Import a previously exported map</div>
+          </div>
+        </button>
+        <div class="my-2 border-t border-stone"></div>
+        <a href="import-template.csv" download="stakeholder-template.csv" id="download-csv-btn" class="w-full text-left px-4 py-3 sm:py-2.5 text-sm text-ink hover:bg-cream transition-colors flex items-start gap-3" role="menuitem">
+          <svg class="w-5 h-5 sm:w-4 sm:h-4 text-muted flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
+          </svg>
+          <div>
+            <div>Download CSV template</div>
+            <div class="text-xs text-muted font-normal">Fill out in Excel, then convert to JSON</div>
+          </div>
+        </a>
+        <a href="https://github.com/jamditis/ccm-stakeholder-map/blob/main/csv_to_json.py" target="_blank" id="get-converter-btn" class="w-full text-left px-4 py-3 sm:py-2.5 text-sm text-ink hover:bg-cream transition-colors flex items-start gap-3" role="menuitem">
+          <svg class="w-5 h-5 sm:w-4 sm:h-4 text-muted flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 6.75L22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3l-4.5 16.5" />
+          </svg>
+          <div>
+            <div>Get CSV converter script</div>
+            <div class="text-xs text-muted font-normal">Python script to convert CSV to JSON</div>
+          </div>
+        </a>
+      </div>
     </div>
   </div>
 
