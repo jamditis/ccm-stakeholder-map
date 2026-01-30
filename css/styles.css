@@ -271,14 +271,104 @@
   text-transform: uppercase;
 }
 
-/* Responsive adjustments */
-@media (max-width: 640px) {
-  #canvas-container {
-    height: 450px !important;
+/* Responsive canvas height */
+.canvas-height {
+  height: calc(100vh - 280px);
+  min-height: 350px;
+  max-height: 600px;
+}
+
+@media (min-width: 640px) {
+  .canvas-height {
+    height: 600px;
+    max-height: none;
+  }
+}
+
+/* Mobile-specific adjustments */
+@media (max-width: 639px) {
+  /* Ensure modals slide up from bottom */
+  #stakeholder-modal > div:first-child,
+  #new-map-modal > div:first-child,
+  #connection-modal > div:first-child {
+    align-items: flex-end;
   }
 
-  .absolute.top-4.right-4 {
-    display: none;
+  /* Bottom toolbar safe area */
+  #canvas-view {
+    padding-bottom: 80px;
+  }
+
+  /* Legend mobile positioning */
+  #canvas-legend {
+    position: fixed;
+    top: auto;
+    bottom: 80px;
+    left: 16px;
+    right: 16px;
+    max-width: none;
+  }
+
+  /* Stakeholder cards - more compact on mobile */
+  .stakeholder-card {
+    padding: 16px;
+  }
+
+  /* Template cards - smaller padding */
+  .template-card {
+    padding: 16px;
+  }
+
+  .template-card .template-icon {
+    font-size: 24px;
+    margin-bottom: 6px;
+  }
+
+  /* Node tooltip - full width on mobile */
+  .node-tooltip {
+    left: 16px !important;
+    right: 16px !important;
+    max-width: none;
+    bottom: 100px;
+    top: auto !important;
+  }
+
+  /* Context menu - centered on mobile */
+  .context-menu {
+    left: 50% !important;
+    transform: translateX(-50%);
+    min-width: 200px;
+  }
+
+  /* Improve tap targets */
+  button,
+  select,
+  input[type="checkbox"] {
+    min-height: 44px;
+  }
+
+  input[type="checkbox"] {
+    min-height: auto;
+    width: 20px;
+    height: 20px;
+  }
+
+  /* Better touch scrolling */
+  .overflow-y-auto {
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* Safe area insets for notched devices */
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+  @media (max-width: 639px) {
+    #export-menu > div:last-child > div:last-child {
+      height: calc(24px + env(safe-area-inset-bottom));
+    }
+
+    .sm\\:hidden.fixed.bottom-4 {
+      bottom: calc(16px + env(safe-area-inset-bottom));
+    }
   }
 }
 

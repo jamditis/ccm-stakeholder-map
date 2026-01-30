@@ -31,12 +31,18 @@ const App = {
    * Bind global event handlers
    */
   bindEvents() {
-    // New map buttons
+    // New map buttons (desktop + mobile)
     document.getElementById('new-map-btn')?.addEventListener('click', () => this.openNewMapModal());
+    document.getElementById('new-map-btn-mobile')?.addEventListener('click', () => this.openNewMapModal());
     document.getElementById('welcome-new-map-btn')?.addEventListener('click', () => this.openNewMapModal());
 
-    // Map selector
+    // Map selector (desktop + mobile)
     document.getElementById('current-map-select')?.addEventListener('change', (e) => {
+      if (e.target.value) {
+        this.selectMap(e.target.value);
+      }
+    });
+    document.getElementById('current-map-select-mobile')?.addEventListener('change', (e) => {
       if (e.target.value) {
         this.selectMap(e.target.value);
       }
@@ -46,8 +52,9 @@ const App = {
     document.getElementById('view-canvas-btn')?.addEventListener('click', () => this.setView('canvas'));
     document.getElementById('view-list-btn')?.addEventListener('click', () => this.setView('list'));
 
-    // Add stakeholder buttons
+    // Add stakeholder buttons (desktop + mobile)
     document.getElementById('add-stakeholder-btn')?.addEventListener('click', () => this.openStakeholderModal());
+    document.getElementById('add-stakeholder-btn-mobile')?.addEventListener('click', () => this.openStakeholderModal());
     document.getElementById('add-stakeholder-list-btn')?.addEventListener('click', () => this.openStakeholderModal());
 
     // Map settings
@@ -76,11 +83,36 @@ const App = {
     // Export menu
     this.bindExportMenu();
 
-    // Import
+    // Legend toggle (mobile)
+    this.bindLegendToggle();
+
+    // Import (desktop + mobile)
     document.getElementById('import-btn')?.addEventListener('click', () => {
       document.getElementById('import-file-input')?.click();
     });
+    document.getElementById('import-btn-mobile')?.addEventListener('click', () => {
+      document.getElementById('import-file-input')?.click();
+    });
     document.getElementById('import-file-input')?.addEventListener('change', (e) => this.handleImport(e));
+  },
+
+  /**
+   * Bind legend toggle for mobile
+   */
+  bindLegendToggle() {
+    const legendToggleBtn = document.getElementById('legend-toggle-btn');
+    const legendCloseBtn = document.getElementById('legend-close-btn');
+    const legend = document.getElementById('canvas-legend');
+
+    legendToggleBtn?.addEventListener('click', () => {
+      legend?.classList.toggle('hidden');
+      legend?.classList.toggle('block');
+    });
+
+    legendCloseBtn?.addEventListener('click', () => {
+      legend?.classList.add('hidden');
+      legend?.classList.remove('block');
+    });
   },
 
   /**
@@ -92,10 +124,12 @@ const App = {
     const stakeholderForm = document.getElementById('stakeholder-form');
     const modalBackdrop = document.getElementById('modal-backdrop');
     const modalCancelBtn = document.getElementById('modal-cancel-btn');
+    const modalCloseXBtn = document.getElementById('modal-close-x-btn');
     const modalDeleteBtn = document.getElementById('modal-delete-btn');
 
     modalBackdrop?.addEventListener('click', () => this.closeStakeholderModal());
     modalCancelBtn?.addEventListener('click', () => this.closeStakeholderModal());
+    modalCloseXBtn?.addEventListener('click', () => this.closeStakeholderModal());
     modalDeleteBtn?.addEventListener('click', () => this.deleteCurrentStakeholder());
     stakeholderForm?.addEventListener('submit', (e) => this.handleStakeholderSubmit(e));
 
@@ -104,9 +138,11 @@ const App = {
     const newMapForm = document.getElementById('new-map-form');
     const newMapBackdrop = document.getElementById('new-map-backdrop');
     const newMapCancelBtn = document.getElementById('new-map-cancel-btn');
+    const newMapCloseXBtn = document.getElementById('new-map-close-x-btn');
 
     newMapBackdrop?.addEventListener('click', () => this.closeNewMapModal());
     newMapCancelBtn?.addEventListener('click', () => this.closeNewMapModal());
+    newMapCloseXBtn?.addEventListener('click', () => this.closeNewMapModal());
     newMapForm?.addEventListener('submit', (e) => this.handleNewMapSubmit(e));
 
     // Connection modal
@@ -114,9 +150,11 @@ const App = {
     const connectionForm = document.getElementById('connection-form');
     const connectionBackdrop = document.getElementById('connection-backdrop');
     const connectionCancelBtn = document.getElementById('connection-cancel-btn');
+    const connectionCloseXBtn = document.getElementById('connection-close-x-btn');
 
     connectionBackdrop?.addEventListener('click', () => this.closeConnectionModal());
     connectionCancelBtn?.addEventListener('click', () => this.closeConnectionModal());
+    connectionCloseXBtn?.addEventListener('click', () => this.closeConnectionModal());
     connectionForm?.addEventListener('submit', (e) => this.handleConnectionSubmit(e));
 
     // Close modals on Escape key
@@ -135,17 +173,42 @@ const App = {
    */
   bindExportMenu() {
     const exportMenuBtn = document.getElementById('export-menu-btn');
+    const exportMenuBtnMobile = document.getElementById('export-menu-btn-mobile');
     const exportMenu = document.getElementById('export-menu');
+    const exportMenuBackdrop = document.getElementById('export-menu-backdrop');
+    const exportMenuCloseBtn = document.getElementById('export-menu-close-btn');
 
+    // Desktop export button
     exportMenuBtn?.addEventListener('click', (e) => {
       e.stopPropagation();
       const rect = exportMenuBtn.getBoundingClientRect();
-      exportMenu.style.top = `${rect.bottom + 4}px`;
-      exportMenu.style.right = `${window.innerWidth - rect.right}px`;
+      // Only position for desktop
+      if (window.innerWidth >= 640) {
+        const menuContent = exportMenu.querySelector('div:last-child');
+        if (menuContent) {
+          menuContent.style.top = `${rect.bottom + 4}px`;
+          menuContent.style.right = `${window.innerWidth - rect.right}px`;
+        }
+      }
       exportMenu.classList.toggle('hidden');
     });
 
-    document.addEventListener('click', () => this.closeExportMenu());
+    // Mobile export button
+    exportMenuBtnMobile?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      exportMenu.classList.remove('hidden');
+    });
+
+    // Close on backdrop click (mobile)
+    exportMenuBackdrop?.addEventListener('click', () => this.closeExportMenu());
+    exportMenuCloseBtn?.addEventListener('click', () => this.closeExportMenu());
+
+    // Desktop: close on document click
+    document.addEventListener('click', (e) => {
+      if (window.innerWidth >= 640 && !exportMenu.contains(e.target)) {
+        this.closeExportMenu();
+      }
+    });
 
     document.getElementById('export-json-btn')?.addEventListener('click', () => {
       if (this.currentMapId) Export.downloadJSON(this.currentMapId);
@@ -185,27 +248,35 @@ const App = {
    */
   loadMaps() {
     const select = document.getElementById('current-map-select');
-    if (!select) return;
+    const selectMobile = document.getElementById('current-map-select-mobile');
 
     const maps = Storage.getAllMaps();
 
-    // Clear and rebuild options
-    select.textContent = '';
+    // Helper to populate a select element
+    const populateSelect = (selectEl) => {
+      if (!selectEl) return;
 
-    const defaultOption = document.createElement('option');
-    defaultOption.value = '';
-    defaultOption.textContent = 'Select a map...';
-    select.appendChild(defaultOption);
+      selectEl.textContent = '';
 
-    maps.forEach(map => {
-      const option = document.createElement('option');
-      option.value = map.id;
-      option.textContent = map.name;
-      if (map.id === this.currentMapId) {
-        option.selected = true;
-      }
-      select.appendChild(option);
-    });
+      const defaultOption = document.createElement('option');
+      defaultOption.value = '';
+      defaultOption.textContent = 'Select a map...';
+      selectEl.appendChild(defaultOption);
+
+      maps.forEach(map => {
+        const option = document.createElement('option');
+        option.value = map.id;
+        option.textContent = map.name;
+        if (map.id === this.currentMapId) {
+          option.selected = true;
+        }
+        selectEl.appendChild(option);
+      });
+    };
+
+    // Populate both desktop and mobile selects
+    populateSelect(select);
+    populateSelect(selectMobile);
 
     // Update welcome state visibility
     const welcomeState = document.getElementById('welcome-state');
