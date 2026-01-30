@@ -64,8 +64,10 @@ ccm-stakeholder-map/
 
 ### canvas.js
 - `Canvas.init(mapId)` - Initialize SVG canvas for a map
-- `Canvas.render()` - Draws all nodes and connections
-- `Canvas.createNode(stakeholder)` - Generates SVG node element
+- `Canvas.render()` - Draws all nodes, connections, and connections panel
+- `Canvas.createNode(stakeholder)` - Generates SVG node element with connect button
+- `Canvas.createConnectionLine(connection, fromNode, toNode)` - Creates colored connection lines with labels
+- `Canvas.renderConnectionsPanel(connections, stakeholders)` - Renders the connections list panel
 - Handles drag/drop, zoom/pan, tooltips, context menus
 
 ### storage.js
@@ -77,7 +79,8 @@ ccm-stakeholder-map/
 ### templates.js
 - `Templates.sectors` - Pre-built templates for CCM areas
 - `Templates.categoryInfo` - Color and label definitions
-- `Templates.connectionTypes` - Relationship type definitions
+- `Templates.connectionTypes` - Relationship type definitions with colors
+- `Templates.getConnectionType(typeId)` - Get connection type info by ID
 
 ### export.js
 - `Export.downloadJSON(mapId)` - Raw data export
@@ -249,8 +252,18 @@ The Import button accepts `.json` files in two formats:
 **Connection fields:**
 - `from` - Stakeholder ID (use temp IDs, they get remapped on import)
 - `to` - Stakeholder ID
-- `type` - One of: `reports-to`, `influences`, `blocks`, `supports`, `depends-on`
+- `type` - One of: `works-with`, `reports-to`, `influences`, `blocks`, `supports`, `depends-on`
 - `notes` - Relationship details
+
+**Connection type colors:**
+| Type | Color | Style |
+|------|-------|-------|
+| works-with | Gray (#9ca3af) | Solid |
+| reports-to | Purple (#8b5fc7) | Solid |
+| influences | Blue (#4a7fc7) | Dashed |
+| blocks | Red (#ef4444) | Dashed |
+| supports | Green (#22c55e) | Solid |
+| depends-on | Orange (#f97316) | Dashed |
 
 **Template files:**
 - `import-template.csv` - CSV template for spreadsheet users
@@ -273,3 +286,18 @@ The Import button accepts `.json` files in two formats:
 - Changed hover effects to only modify child element stroke-width
 
 **Important CSS rule:** Never apply CSS `transform` to `.stakeholder-node` - it will override the SVG positioning transform and break the layout.
+
+### Connection enhancements (added 2026-01-30)
+
+**Features added:**
+1. **Colored connection lines** - Each connection type has a distinct color with matching arrowhead
+2. **Connection labels** - Relationship type shown as text label on the connection line curve
+3. **Connect button on hover** - Small button appears at 45° angle on nodes, clicking opens connection modal
+4. **Connections panel** - Collapsible panel listing all connections with delete buttons
+5. **Connections in exports** - PDF and Markdown exports now include a "Relationships" section
+
+**Implementation details:**
+- Colored arrowhead markers defined in SVG `<defs>` section (one per connection type)
+- Connection labels use white text-shadow for readability over grid background
+- Connect button uses CSS opacity transition, only visible on `.stakeholder-node:hover`
+- Connections panel renders via `Canvas.renderConnectionsPanel()` called from `Canvas.render()`

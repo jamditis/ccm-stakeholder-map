@@ -356,8 +356,28 @@
               <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
                 <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#e8e4de" stroke-width="0.5" opacity="0.5"/>
               </pattern>
+              <!-- Default arrowhead -->
               <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
                 <polygon points="0 0, 10 3.5, 0 7" fill="#8a8580" />
+              </marker>
+              <!-- Connection type arrowheads -->
+              <marker id="arrowhead-works-with" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                <polygon points="0 0, 10 3.5, 0 7" fill="#9ca3af" />
+              </marker>
+              <marker id="arrowhead-reports-to" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                <polygon points="0 0, 10 3.5, 0 7" fill="#8b5fc7" />
+              </marker>
+              <marker id="arrowhead-influences" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                <polygon points="0 0, 10 3.5, 0 7" fill="#4a7fc7" />
+              </marker>
+              <marker id="arrowhead-blocks" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                <polygon points="0 0, 10 3.5, 0 7" fill="#ef4444" />
+              </marker>
+              <marker id="arrowhead-supports" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                <polygon points="0 0, 10 3.5, 0 7" fill="#22c55e" />
+              </marker>
+              <marker id="arrowhead-depends-on" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                <polygon points="0 0, 10 3.5, 0 7" fill="#f97316" />
               </marker>
             </defs>
             <rect width="100%" height="100%" fill="url(#grid)" />
@@ -367,6 +387,33 @@
             </g>
           </svg>
         </div>
+
+        <!-- Connections panel (below legend) -->
+        <div id="connections-panel" class="hidden absolute top-[200px] right-4 z-10 bg-white/90 backdrop-blur-sm rounded-xl shadow-lg shadow-ink/5 p-3 sm:p-4 border border-stone/50 max-w-xs w-64">
+          <div class="flex items-center justify-between mb-3">
+            <div class="text-xs font-medium text-muted uppercase tracking-wider">Connections</div>
+            <button id="toggle-connections-btn" class="p-1 text-muted hover:text-ink rounded transition-all" title="Toggle connections panel">
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+          <div id="connections-list" class="space-y-2 max-h-64 overflow-y-auto">
+            <!-- Connections inserted by JS -->
+          </div>
+          <div id="connections-empty" class="text-center py-4 text-sm text-muted hidden">
+            <p>No connections yet</p>
+            <p class="text-xs mt-1">Right-click a stakeholder to add one</p>
+          </div>
+        </div>
+
+        <!-- Connections panel toggle button (in toolbar area) -->
+        <button id="show-connections-btn" class="hidden sm:flex absolute top-[160px] right-4 z-10 items-center gap-2 px-3 py-2 bg-white/90 backdrop-blur-sm rounded-xl shadow-lg shadow-ink/5 border border-stone/50 text-sm text-muted hover:text-ink transition-all" title="Show connections">
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244" />
+          </svg>
+          <span id="connections-count">0</span>
+        </button>
 
         <!-- Canvas hint -->
         <p class="hidden sm:block text-center text-xs text-muted mt-3">Double-click canvas to add • Drag to move • Scroll to zoom</p>

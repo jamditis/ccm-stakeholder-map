@@ -262,16 +262,19 @@ const Templates = {
       label: 'Works with',
       description: 'General working relationship',
       style: 'solid',
+      color: '#9ca3af',
     },
     'reports-to': {
       label: 'Reports to',
       description: 'Hierarchical reporting relationship',
       style: 'solid',
+      color: '#8b5fc7',
     },
     influences: {
       label: 'Influences',
       description: 'Has influence over decisions',
       style: 'dashed',
+      color: '#4a7fc7',
     },
     blocks: {
       label: 'Blocks',

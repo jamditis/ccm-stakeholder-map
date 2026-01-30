@@ -24,7 +24,9 @@ Create visual maps of the people in your professional landscape:
 ### Visual map canvas
 - Drag-and-drop stakeholder nodes
 - Color-coded categories
-- Connection lines showing relationships
+- **Color-coded connection lines** with relationship labels (supports, reports-to, influences, etc.)
+- **Connections panel** showing all relationships with quick delete
+- **Connect button** appears on node hover for easy relationship creation
 - Zoom and pan controls
 - Double-click to add stakeholders at any position
 

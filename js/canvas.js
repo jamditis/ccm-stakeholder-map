@@ -85,6 +85,7 @@ const Canvas = {
 
     this.renderConnections(map.connections, map.stakeholders);
     this.renderNodes(map.stakeholders);
+    this.renderConnectionsPanel(map.connections, map.stakeholders);
     this.updateTransform();
   },
 
@@ -197,6 +198,39 @@ const Canvas = {
       g.appendChild(badgeText);
     }
 
+    // Connect button (visible on hover, positioned at 45° angle)
+    const connectBtnGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    connectBtnGroup.setAttribute('class', 'node-connect-btn');
+    // Position at 45° angle outside the node
+    const btnAngle = Math.PI / 4; // 45 degrees
+    const btnDistance = this.NODE_RADIUS + 8;
+    const btnX = Math.cos(btnAngle) * btnDistance;
+    const btnY = -Math.sin(btnAngle) * btnDistance;
+    connectBtnGroup.setAttribute('transform', `translate(${btnX}, ${btnY})`);
+
+    const connectCircle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    connectCircle.setAttribute('r', '12');
+    connectCircle.setAttribute('fill', '#1a1a1a');
+    connectCircle.setAttribute('class', 'connect-btn-circle');
+    connectBtnGroup.appendChild(connectCircle);
+
+    // Link icon (simple line representation)
+    const linkIcon = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    linkIcon.setAttribute('d', 'M-4,-2 L0,-2 L0,2 L4,2 M-4,2 L-4,-2 M4,-2 L4,2');
+    linkIcon.setAttribute('stroke', 'white');
+    linkIcon.setAttribute('stroke-width', '1.5');
+    linkIcon.setAttribute('fill', 'none');
+    linkIcon.setAttribute('stroke-linecap', 'round');
+    connectBtnGroup.appendChild(linkIcon);
+
+    // Click handler for connect button
+    connectBtnGroup.addEventListener('click', (e) => {
+      e.stopPropagation();
+      App.openConnectionModal(stakeholder.id);
+    });
+
+    g.appendChild(connectBtnGroup);
+
     // Event handlers
     g.addEventListener('mousedown', (e) => this.startDragNode(e, stakeholder));
     g.addEventListener('mouseenter', (e) => this.showTooltip(e, stakeholder));
@@ -245,6 +279,7 @@ const Canvas = {
   createConnectionLine(connection, fromNode, toNode) {
     const connType = Templates.getConnectionType(connection.type);
     const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    g.setAttribute('class', 'connection-group');
     g.setAttribute('data-connection-id', connection.id);
 
     // Calculate line endpoints (edge of circles, not centers)
@@ -269,16 +304,20 @@ const Canvas = {
     const perpX = -unitY * offset;
     const perpY = unitX * offset;
 
+    // Calculate the actual curve midpoint for label placement
+    const curveMidX = midX + perpX;
+    const curveMidY = midY + perpY;
+
     const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
     path.setAttribute('class', `connection-line type-${connection.type}`);
     path.setAttribute(
       'd',
-      `M ${startX} ${startY} Q ${midX + perpX} ${midY + perpY} ${endX} ${endY}`
+      `M ${startX} ${startY} Q ${curveMidX} ${curveMidY} ${endX} ${endY}`
     );
     path.setAttribute('stroke', connType.color || '#9ca3af');
     path.setAttribute('stroke-width', '2');
     path.setAttribute('fill', 'none');
-    path.setAttribute('marker-end', 'url(#arrowhead)');
+    path.setAttribute('marker-end', `url(#arrowhead-${connection.type})`);
 
     if (connType.style === 'dashed') {
       path.setAttribute('stroke-dasharray', '6 4');
@@ -286,8 +325,19 @@ const Canvas = {
 
     g.appendChild(path);
 
+    // Add label at curve midpoint
+    const label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    label.setAttribute('class', 'connection-label');
+    label.setAttribute('x', curveMidX);
+    label.setAttribute('y', curveMidY - 6);
+    label.setAttribute('text-anchor', 'middle');
+    label.setAttribute('font-size', '10');
+    label.setAttribute('fill', connType.color || '#9ca3af');
+    label.textContent = connType.label;
+    g.appendChild(label);
+
     // Click handler for connection
-    path.addEventListener('click', (e) => {
+    g.addEventListener('click', (e) => {
       e.stopPropagation();
       this.showConnectionContextMenu(e, connection);
     });
@@ -693,6 +743,91 @@ const Canvas = {
     this.transform.x = rect.width / 2 - centerX * this.transform.scale;
     this.transform.y = rect.height / 2 - centerY * this.transform.scale;
     this.updateTransform();
+  },
+
+  /**
+   * Render the connections panel
+   */
+  renderConnectionsPanel(connections, stakeholders) {
+    const listContainer = document.getElementById('connections-list');
+    const emptyState = document.getElementById('connections-empty');
+    const countBadge = document.getElementById('connections-count');
+
+    if (!listContainer) return;
+
+    // Update count badge
+    if (countBadge) {
+      countBadge.textContent = connections.length;
+    }
+
+    // Clear existing content safely
+    listContainer.textContent = '';
+
+    if (connections.length === 0) {
+      emptyState?.classList.remove('hidden');
+      return;
+    }
+
+    emptyState?.classList.add('hidden');
+
+    // Render each connection
+    connections.forEach((conn) => {
+      const fromNode = stakeholders.find((s) => s.id === conn.from);
+      const toNode = stakeholders.find((s) => s.id === conn.to);
+      if (!fromNode || !toNode) return;
+
+      const connType = Templates.getConnectionType(conn.type);
+
+      const item = document.createElement('div');
+      item.className = 'connection-item flex items-center justify-between gap-2 p-2 rounded-lg bg-cream/50 hover:bg-cream transition-colors';
+      item.setAttribute('data-connection-id', conn.id);
+
+      const info = document.createElement('div');
+      info.className = 'flex-1 min-w-0';
+
+      const names = document.createElement('div');
+      names.className = 'text-xs font-medium text-ink truncate';
+      names.textContent = `${fromNode.name} → ${toNode.name}`;
+      info.appendChild(names);
+
+      const typeLabel = document.createElement('div');
+      typeLabel.className = 'text-xs';
+      typeLabel.style.color = connType.color || '#9ca3af';
+      typeLabel.textContent = connType.label;
+      if (conn.notes) {
+        typeLabel.textContent += ` • ${conn.notes}`;
+      }
+      info.appendChild(typeLabel);
+
+      item.appendChild(info);
+
+      // Delete button
+      const deleteBtn = document.createElement('button');
+      deleteBtn.className = 'p-1 text-muted hover:text-obstacle rounded transition-colors flex-shrink-0';
+      deleteBtn.title = 'Delete connection';
+
+      const deleteIcon = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      deleteIcon.setAttribute('class', 'w-4 h-4');
+      deleteIcon.setAttribute('fill', 'none');
+      deleteIcon.setAttribute('viewBox', '0 0 24 24');
+      deleteIcon.setAttribute('stroke', 'currentColor');
+      deleteIcon.setAttribute('stroke-width', '1.5');
+      const deletePath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      deletePath.setAttribute('stroke-linecap', 'round');
+      deletePath.setAttribute('stroke-linejoin', 'round');
+      deletePath.setAttribute('d', 'M6 18L18 6M6 6l12 12');
+      deleteIcon.appendChild(deletePath);
+      deleteBtn.appendChild(deleteIcon);
+
+      deleteBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        Storage.deleteConnection(this.currentMapId, conn.id);
+        this.render();
+      });
+      item.appendChild(deleteBtn);
+
+      listContainer.appendChild(item);
+    });
   },
 };
 

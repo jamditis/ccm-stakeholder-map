@@ -99,6 +99,9 @@ const App = {
 
     // Legend expand toggle
     this.bindLegendExpand();
+
+    // Connections panel toggle
+    this.bindConnectionsPanel();
   },
 
   /**
@@ -142,6 +145,25 @@ const App = {
         compactLegend?.classList.add('hidden');
         hintText?.classList.add('hidden');
       }
+    });
+  },
+
+  /**
+   * Bind connections panel toggle
+   */
+  bindConnectionsPanel() {
+    const showBtn = document.getElementById('show-connections-btn');
+    const panel = document.getElementById('connections-panel');
+    const closeBtn = document.getElementById('toggle-connections-btn');
+
+    showBtn?.addEventListener('click', () => {
+      panel?.classList.remove('hidden');
+      showBtn?.classList.add('hidden');
+    });
+
+    closeBtn?.addEventListener('click', () => {
+      panel?.classList.add('hidden');
+      showBtn?.classList.remove('hidden');
     });
   },
 

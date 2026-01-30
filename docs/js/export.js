@@ -157,6 +157,66 @@ const Export = {
       content.appendChild(sectionDiv);
     }
 
+    // Relationships section
+    if (map.connections && map.connections.length > 0) {
+      const relationshipsSection = document.createElement('div');
+      relationshipsSection.style.cssText = 'margin-bottom: 24px; page-break-inside: avoid;';
+
+      const relationshipsTitle = document.createElement('h2');
+      relationshipsTitle.style.cssText = 'font-size: 18px; font-weight: 600; color: #1f2937; margin-bottom: 8px; border-bottom: 2px solid #1f2937; padding-bottom: 4px;';
+      relationshipsTitle.textContent = 'Relationships';
+      relationshipsSection.appendChild(relationshipsTitle);
+
+      const relationshipsIntro = document.createElement('p');
+      relationshipsIntro.style.cssText = 'font-size: 12px; color: #6b7280; margin-bottom: 16px;';
+      relationshipsIntro.textContent = 'How stakeholders are connected to each other.';
+      relationshipsSection.appendChild(relationshipsIntro);
+
+      const relationshipsList = document.createElement('div');
+      relationshipsList.style.cssText = 'space-y: 8px;';
+
+      map.connections.forEach(conn => {
+        const fromNode = map.stakeholders.find(s => s.id === conn.from);
+        const toNode = map.stakeholders.find(s => s.id === conn.to);
+        if (!fromNode || !toNode) return;
+
+        const connType = Templates.getConnectionType(conn.type);
+
+        const relationshipItem = document.createElement('div');
+        relationshipItem.style.cssText = 'background: #f9fafb; border-radius: 8px; padding: 12px; margin-bottom: 8px; display: flex; align-items: center; gap: 8px;';
+
+        const dot = document.createElement('span');
+        dot.style.cssText = `width: 8px; height: 8px; border-radius: 50%; background: ${connType.color || '#9ca3af'}; flex-shrink: 0;`;
+        relationshipItem.appendChild(dot);
+
+        const relationshipText = document.createElement('div');
+        relationshipText.style.cssText = 'flex: 1;';
+
+        const names = document.createElement('span');
+        names.style.cssText = 'font-weight: 500;';
+        names.textContent = `${fromNode.name} → ${toNode.name}`;
+        relationshipText.appendChild(names);
+
+        const typeSpan = document.createElement('span');
+        typeSpan.style.cssText = `color: ${connType.color || '#9ca3af'}; margin-left: 8px; font-size: 13px;`;
+        typeSpan.textContent = connType.label;
+        relationshipText.appendChild(typeSpan);
+
+        if (conn.notes) {
+          const notesSpan = document.createElement('span');
+          notesSpan.style.cssText = 'color: #6b7280; font-size: 12px; margin-left: 8px; font-style: italic;';
+          notesSpan.textContent = `(${conn.notes})`;
+          relationshipText.appendChild(notesSpan);
+        }
+
+        relationshipItem.appendChild(relationshipText);
+        relationshipsList.appendChild(relationshipItem);
+      });
+
+      relationshipsSection.appendChild(relationshipsList);
+      content.appendChild(relationshipsSection);
+    }
+
     // Footer
     const hr = document.createElement('hr');
     hr.style.cssText = 'margin: 32px 0; border: none; border-top: 1px solid #e5e7eb;';
@@ -484,6 +544,25 @@ const Export = {
           md += `> **Tip:** ${s.interactionTips}\n\n`;
         }
       }
+    }
+
+    // Relationships section
+    if (map.connections && map.connections.length > 0) {
+      md += `## Relationships\n\n`;
+
+      for (const conn of map.connections) {
+        const fromNode = map.stakeholders.find(s => s.id === conn.from);
+        const toNode = map.stakeholders.find(s => s.id === conn.to);
+        if (!fromNode || !toNode) continue;
+
+        const connType = Templates.getConnectionType(conn.type);
+        md += `- **${fromNode.name}** ${connType.label.toLowerCase()} **${toNode.name}**`;
+        if (conn.notes) {
+          md += ` *(${conn.notes})*`;
+        }
+        md += `\n`;
+      }
+      md += `\n`;
     }
 
     return md;

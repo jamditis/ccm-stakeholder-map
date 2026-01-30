@@ -94,6 +94,70 @@
   stroke-dasharray: 12 4;
 }
 
+/* Connection labels */
+.connection-label {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-weight: 500;
+  pointer-events: none;
+  text-shadow:
+    -1px -1px 0 white,
+    1px -1px 0 white,
+    -1px 1px 0 white,
+    1px 1px 0 white,
+    0 -1px 0 white,
+    0 1px 0 white,
+    -1px 0 0 white,
+    1px 0 0 white;
+}
+
+/* Connection group hover effect */
+.connection-group:hover .connection-line {
+  stroke-width: 3;
+}
+
+.connection-group:hover .connection-label {
+  font-weight: 600;
+}
+
+/* Node connect button */
+.node-connect-btn {
+  opacity: 0;
+  pointer-events: none;
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+}
+
+.stakeholder-node:hover .node-connect-btn {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.node-connect-btn:hover .connect-btn-circle {
+  fill: #4a7fc7;
+}
+
+/* Connections panel */
+#connections-panel {
+  font-family: 'DM Sans', system-ui, sans-serif;
+}
+
+#connections-list::-webkit-scrollbar {
+  width: 4px;
+}
+
+#connections-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+#connections-list::-webkit-scrollbar-thumb {
+  background: #e8e4de;
+  border-radius: 2px;
+}
+
+.connection-item {
+  transition: background-color 0.15s ease;
+}
+
 /* Template cards */
 .template-card {
   background: white;
