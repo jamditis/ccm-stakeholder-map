@@ -36,9 +36,10 @@ const Export = {
     if (!map) return;
 
     const container = this.buildFieldGuideDOM(map);
-    // Use fixed positioning with opacity 0 instead of off-screen positioning
-    // This ensures html2pdf can properly measure and render the content
-    container.style.cssText = 'position: fixed; left: 0; top: 0; width: 800px; background: white; z-index: -9999; opacity: 0;';
+    // Add unique ID for targeting in onclone
+    container.id = 'pdf-export-container';
+    // Position off-screen but keep in document flow
+    container.style.cssText = 'position: absolute; left: -9999px; top: 0; width: 800px; background: white;';
     document.body.appendChild(container);
 
     // Wait for DOM to be ready
@@ -53,7 +54,15 @@ const Export = {
           scale: 2,
           useCORS: true,
           backgroundColor: '#ffffff',
-          logging: false
+          logging: false,
+          // Clone callback - make the cloned element visible for capture
+          onclone: (clonedDoc) => {
+            const clonedContainer = clonedDoc.getElementById('pdf-export-container');
+            if (clonedContainer) {
+              clonedContainer.style.left = '0';
+              clonedContainer.style.position = 'relative';
+            }
+          }
         },
         jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
       };
