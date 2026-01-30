@@ -2,7 +2,7 @@
 
 An interactive web tool for creating "ally/obstacle maps" and onboarding field guides. Built for the Center for Cooperative Media.
 
-**[Try it live →](https://cooperativemedia.github.io/ccm-stakeholder-map/)**
+**[Try it live →](https://jamditis.github.io/ccm-stakeholder-map/)**
 
 ## Features
 
@@ -28,7 +28,7 @@ No build step required. Just open `docs/index.html` in a browser.
 
 ```bash
 # Clone the repo
-git clone https://github.com/cooperativemedia/ccm-stakeholder-map.git
+git clone https://github.com/jamditis/ccm-stakeholder-map.git
 cd ccm-stakeholder-map
 
 # Open in browser
