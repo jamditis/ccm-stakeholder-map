@@ -156,3 +156,82 @@ GitHub Pages is configured to build from the `/docs` folder on the `main` branch
 1. Edit `Canvas.createNode()` in `canvas.js`
 2. Update `NODE_RADIUS` constant if changing size
 3. Adjust CSS in `styles.css` for hover/selected states
+
+## Import/export
+
+**Import format:** JSON only (not CSV)
+
+The Import button accepts `.json` files in two formats:
+
+**Single map:**
+```json
+{
+  "name": "My Stakeholder Map",
+  "sector": "custom",
+  "isPrivate": false,
+  "stakeholders": [
+    {
+      "name": "Jane Smith",
+      "role": "Director",
+      "organization": "Example Foundation",
+      "category": "advocate",
+      "influence": "high",
+      "notes": "Key decision maker for funding",
+      "interactionTips": "Prefers email, responds within 24h",
+      "position": { "x": 400, "y": 300 }
+    }
+  ],
+  "connections": []
+}
+```
+
+**Multiple maps (bulk):**
+```json
+{
+  "maps": [
+    { "name": "Map 1", "stakeholders": [...] },
+    { "name": "Map 2", "stakeholders": [...] }
+  ]
+}
+```
+
+**Required fields:**
+- `name` - Map name (string)
+- `stakeholders` - Array of stakeholder objects
+
+**Stakeholder fields:**
+- `name` (required) - Person's name
+- `category` (required) - One of: `ally`, `advocate`, `decisionmaker`, `obstacle`, `dependency`, `opportunity`
+- `role` - Job title
+- `organization` - Company/org name
+- `influence` - One of: `high`, `medium`, `low`
+- `notes` - Background info
+- `interactionTips` - How to work with them
+- `avatar` - URL to photo
+- `isPrivate` - Hide from exports (boolean)
+- `position` - `{ "x": number, "y": number }` for canvas placement
+
+**Connection fields:**
+- `from` - Stakeholder ID (use temp IDs, they get remapped on import)
+- `to` - Stakeholder ID
+- `type` - One of: `reports-to`, `influences`, `blocks`, `supports`, `depends-on`
+- `notes` - Relationship details
+
+A template JSON file is available at `docs/import-template.json`.
+
+## Known issues and fixes
+
+### SVG node hover instability (fixed 2026-01-30)
+
+**Problem:** Stakeholder nodes would flicker/jump when hovering or clicking.
+
+**Root cause:** Two CSS issues:
+1. `.stakeholder-node:hover { transform: scale(1.05); }` conflicted with SVG `transform` attribute used for positioning
+2. Tailwind's `transition: all` on parent SVG elements caused `getBoundingClientRect()` to return fluctuating values
+
+**Fix applied to `css/styles.css`:**
+- Removed `transform: scale()` from hover state
+- Added `transition: none !important` to `#map-canvas`, `#canvas-transform`, `#nodes-layer`
+- Changed hover effects to only modify child element stroke-width
+
+**Important CSS rule:** Never apply CSS `transform` to `.stakeholder-node` - it will override the SVG positioning transform and break the layout.

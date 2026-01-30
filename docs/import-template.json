@@ -1,0 +1,51 @@
+{
+  "name": "My Stakeholder Map",
+  "sector": "custom",
+  "isPrivate": false,
+  "stakeholders": [
+    {
+      "name": "Example Person 1",
+      "role": "Director",
+      "organization": "Example Organization",
+      "category": "ally",
+      "influence": "high",
+      "notes": "Background information about this person and your relationship with them.",
+      "interactionTips": "Best way to reach them, communication preferences, etc.",
+      "avatar": "",
+      "isPrivate": false,
+      "position": { "x": 400, "y": 250 }
+    },
+    {
+      "name": "Example Person 2",
+      "role": "Manager",
+      "organization": "Partner Organization",
+      "category": "advocate",
+      "influence": "medium",
+      "notes": "This person actively champions your work to others.",
+      "interactionTips": "Responds well to data and concrete examples.",
+      "avatar": "",
+      "isPrivate": false,
+      "position": { "x": 550, "y": 350 }
+    },
+    {
+      "name": "Example Person 3",
+      "role": "Board Member",
+      "organization": "Funding Foundation",
+      "category": "decisionmaker",
+      "influence": "high",
+      "notes": "Has authority to approve or block major initiatives.",
+      "interactionTips": "Schedule meetings well in advance. Bring executive summaries.",
+      "avatar": "",
+      "isPrivate": false,
+      "position": { "x": 300, "y": 400 }
+    }
+  ],
+  "connections": [
+    {
+      "from": "temp-id-1",
+      "to": "temp-id-2",
+      "type": "supports",
+      "notes": "Person 1 mentors Person 2"
+    }
+  ]
+}
