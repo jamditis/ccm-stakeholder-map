@@ -324,7 +324,7 @@ const App = {
 
     // Desktop: close on document click
     document.addEventListener('click', (e) => {
-      if (window.innerWidth >= 640 && !importMenu?.contains(e.target)) {
+      if (window.innerWidth >= 640 && !importMenu?.contains(e.target) && !importMenuBtn?.contains(e.target)) {
         this.closeImportMenu();
       }
     });
