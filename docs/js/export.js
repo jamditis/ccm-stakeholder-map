@@ -36,14 +36,23 @@ const Export = {
     if (!map) return;
 
     const container = this.buildFieldGuideDOM(map);
-    // Add unique ID for targeting in onclone
-    container.id = 'pdf-export-container';
-    // Position off-screen but keep in document flow
-    container.style.cssText = 'position: absolute; left: -9999px; top: 0; width: 800px; background: white;';
+    // Use absolute positioning with explicit dimensions
+    // The container must be in document flow for html2canvas to measure it
+    container.style.cssText = 'position: absolute; left: 0; top: 0; width: 800px; background: white; z-index: 99999;';
+
+    // Create loading overlay to hide the content
+    const overlay = document.createElement('div');
+    overlay.style.cssText = 'position: fixed; inset: 0; background: white; z-index: 999999; display: flex; align-items: center; justify-content: center; font-family: system-ui, sans-serif; font-size: 18px; color: #666;';
+    overlay.textContent = 'Generating PDF...';
+
+    document.body.appendChild(overlay);
     document.body.appendChild(container);
 
-    // Wait for DOM to be ready
-    await new Promise(resolve => setTimeout(resolve, 100));
+    // Wait for DOM to be ready and fonts to load
+    await new Promise(resolve => setTimeout(resolve, 200));
+
+    // Get the actual rendered height
+    const contentHeight = container.scrollHeight;
 
     try {
       const opt = {
@@ -55,14 +64,14 @@ const Export = {
           useCORS: true,
           backgroundColor: '#ffffff',
           logging: false,
-          // Clone callback - make the cloned element visible for capture
-          onclone: (clonedDoc) => {
-            const clonedContainer = clonedDoc.getElementById('pdf-export-container');
-            if (clonedContainer) {
-              clonedContainer.style.left = '0';
-              clonedContainer.style.position = 'relative';
-            }
-          }
+          width: 800,
+          height: contentHeight,
+          windowWidth: 800,
+          windowHeight: contentHeight,
+          scrollX: 0,
+          scrollY: 0,
+          x: 0,
+          y: 0
         },
         jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
       };
@@ -70,6 +79,7 @@ const Export = {
       await html2pdf().set(opt).from(container).save();
     } finally {
       container.remove();
+      overlay.remove();
     }
   },
 
