@@ -440,3 +440,38 @@ textarea::placeholder {
 ::-webkit-scrollbar-thumb:hover {
   background: #8a8580;
 }
+
+/* Keyboard shortcut styling */
+kbd {
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 0.75rem;
+  padding: 2px 6px;
+  background: #f5f3ef;
+  border: 1px solid #e8e4de;
+  border-radius: 4px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+}
+
+/* Help modal list styling */
+#help-modal ol li::marker {
+  color: #8a8580;
+}
+
+#help-modal ul li::before {
+  content: "•";
+  color: #8a8580;
+  margin-right: 0.5rem;
+}
+
+/* Legend transition */
+#legend-compact,
+#legend-expanded {
+  transition: opacity 0.15s ease;
+}
+
+/* Tooltip improvements for touch devices */
+@media (hover: none) {
+  [title] {
+    position: relative;
+  }
+}

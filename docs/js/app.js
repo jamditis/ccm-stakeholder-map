@@ -94,6 +94,13 @@ const App = {
       document.getElementById('import-file-input')?.click();
     });
     document.getElementById('import-file-input')?.addEventListener('change', (e) => this.handleImport(e));
+
+    // Help modal (desktop + mobile)
+    document.getElementById('help-btn')?.addEventListener('click', () => this.openHelpModal());
+    document.getElementById('help-btn-mobile')?.addEventListener('click', () => this.openHelpModal());
+
+    // Legend expand toggle
+    this.bindLegendExpand();
   },
 
   /**
@@ -112,6 +119,31 @@ const App = {
     legendCloseBtn?.addEventListener('click', () => {
       legend?.classList.add('hidden');
       legend?.classList.remove('block');
+    });
+  },
+
+  /**
+   * Bind legend expand/collapse toggle
+   */
+  bindLegendExpand() {
+    const expandBtn = document.getElementById('legend-expand-btn');
+    const compactLegend = document.getElementById('legend-compact');
+    const expandedLegend = document.getElementById('legend-expanded');
+    const hintText = document.querySelector('#canvas-legend > p');
+
+    expandBtn?.addEventListener('click', () => {
+      const isExpanded = !expandedLegend?.classList.contains('hidden');
+      if (isExpanded) {
+        // Collapse
+        expandedLegend?.classList.add('hidden');
+        compactLegend?.classList.remove('hidden');
+        hintText?.classList.remove('hidden');
+      } else {
+        // Expand
+        expandedLegend?.classList.remove('hidden');
+        compactLegend?.classList.add('hidden');
+        hintText?.classList.add('hidden');
+      }
     });
   },
 
@@ -157,15 +189,31 @@ const App = {
     connectionCloseXBtn?.addEventListener('click', () => this.closeConnectionModal());
     connectionForm?.addEventListener('submit', (e) => this.handleConnectionSubmit(e));
 
-    // Close modals on Escape key
+    // Close modals on Escape key, open help on ?
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
         this.closeStakeholderModal();
         this.closeNewMapModal();
         this.closeConnectionModal();
         this.closeExportMenu();
+        this.closeHelpModal();
+      }
+      // Open help modal with ? key (when not typing in an input)
+      if (e.key === '?' && !['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement?.tagName)) {
+        e.preventDefault();
+        this.openHelpModal();
       }
     });
+
+    // Help modal
+    const helpModal = document.getElementById('help-modal');
+    const helpBackdrop = document.getElementById('help-backdrop');
+    const helpCloseBtn = document.getElementById('help-close-btn');
+    const helpDoneBtn = document.getElementById('help-done-btn');
+
+    helpBackdrop?.addEventListener('click', () => this.closeHelpModal());
+    helpCloseBtn?.addEventListener('click', () => this.closeHelpModal());
+    helpDoneBtn?.addEventListener('click', () => this.closeHelpModal());
   },
 
   /**
@@ -241,6 +289,20 @@ const App = {
    */
   closeExportMenu() {
     document.getElementById('export-menu')?.classList.add('hidden');
+  },
+
+  /**
+   * Open help modal
+   */
+  openHelpModal() {
+    document.getElementById('help-modal')?.classList.remove('hidden');
+  },
+
+  /**
+   * Close help modal
+   */
+  closeHelpModal() {
+    document.getElementById('help-modal')?.classList.add('hidden');
   },
 
   /**
