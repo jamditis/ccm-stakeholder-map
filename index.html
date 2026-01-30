@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stakeholder map — CCM</title>
+
+  <!-- Fonts: Source Serif for editorial gravitas, DM Sans for modern UI -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            'display': ['"Source Serif 4"', 'Georgia', 'serif'],
+            'sans': ['"DM Sans"', 'system-ui', 'sans-serif'],
+          },
+          colors: {
+            // Warm, confident palette
+            ink: '#1a1a1a',
+            paper: '#faf9f7',
+            cream: '#f5f3ef',
+            stone: '#e8e4de',
+            muted: '#8a8580',
+            // Category colors - refined, less saturated
+            ally: { DEFAULT: '#2d9d5d', light: '#e8f5ed', dark: '#1e7a45' },
+            advocate: { DEFAULT: '#4a7fc7', light: '#e6f0fa', dark: '#2d5a9e' },
+            decisionmaker: { DEFAULT: '#8b5fc7', light: '#f0e8f7', dark: '#6b3fa7' },
+            obstacle: { DEFAULT: '#cf5858', light: '#fceaea', dark: '#a63c3c' },
+            dependency: { DEFAULT: '#d4874c', light: '#faf0e6', dark: '#b06a32' },
+            opportunity: { DEFAULT: '#c4a82e', light: '#faf8e6', dark: '#9a8420' },
+          },
+        }
+      }
+    }
+  </script>
+
+  <!-- html2pdf.js for PDF export -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+  <!-- Custom styles -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="bg-paper min-h-screen font-sans text-ink antialiased">
+
+  <!-- Subtle texture overlay -->
+  <div class="fixed inset-0 pointer-events-none opacity-[0.015] z-50" style="background-image: url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noise%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noise)%22/%3E%3C/svg%3E');"></div>
+
+  <!-- Header -->
+  <header class="bg-white/80 backdrop-blur-sm border-b border-stone sticky top-0 z-40">
+    <div class="max-w-7xl mx-auto px-6 py-4 lg:px-8">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-6">
+          <!-- Logo/Brand -->
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 bg-ink rounded-lg flex items-center justify-center">
+              <svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" />
+              </svg>
+            </div>
+            <h1 class="font-display text-xl font-semibold tracking-tight">Stakeholder map</h1>
+          </div>
+
+          <!-- Map selector -->
+          <div id="map-selector" class="flex items-center gap-3">
+            <div class="h-6 w-px bg-stone"></div>
+            <select id="current-map-select" class="text-sm bg-transparent border-0 text-muted focus:ring-0 focus:text-ink pr-8 cursor-pointer hover:text-ink transition-colors">
+              <option value="">Select a map...</option>
+            </select>
+            <button id="new-map-btn" class="text-sm px-3.5 py-2 bg-ink text-white rounded-lg hover:bg-ink/80 transition-all hover:shadow-md active:scale-[0.98]">
+              + New map
+            </button>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <button id="import-btn" class="text-sm px-3.5 py-2 text-muted hover:text-ink hover:bg-cream rounded-lg transition-all">
+            Import
+          </button>
+          <button id="export-menu-btn" class="text-sm px-3.5 py-2 text-muted hover:text-ink hover:bg-cream rounded-lg transition-all flex items-center gap-1.5">
+            Export
+            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main content -->
+  <main class="max-w-7xl mx-auto px-6 py-8 lg:px-8">
+
+    <!-- Welcome state (no map selected) -->
+    <div id="welcome-state" class="py-12">
+      <div class="max-w-2xl mx-auto text-center">
+        <!-- Hero illustration -->
+        <div class="relative mb-8">
+          <div class="w-32 h-32 mx-auto relative">
+            <!-- Animated connection lines -->
+            <svg class="absolute inset-0 w-full h-full animate-pulse-slow" viewBox="0 0 128 128">
+              <line x1="32" y1="40" x2="96" y2="40" stroke="#e8e4de" stroke-width="2" stroke-dasharray="4 4"/>
+              <line x1="32" y1="88" x2="96" y2="88" stroke="#e8e4de" stroke-width="2" stroke-dasharray="4 4"/>
+              <line x1="64" y1="24" x2="64" y2="104" stroke="#e8e4de" stroke-width="2" stroke-dasharray="4 4"/>
+            </svg>
+            <!-- Nodes -->
+            <div class="absolute w-8 h-8 bg-ally rounded-full top-[28px] left-[24px] shadow-lg shadow-ally/20"></div>
+            <div class="absolute w-10 h-10 bg-advocate rounded-full top-[18px] right-[20px] shadow-lg shadow-advocate/20"></div>
+            <div class="absolute w-7 h-7 bg-decisionmaker rounded-full bottom-[28px] left-[28px] shadow-lg shadow-decisionmaker/20"></div>
+            <div class="absolute w-9 h-9 bg-opportunity rounded-full bottom-[24px] right-[24px] shadow-lg shadow-opportunity/20"></div>
+            <div class="absolute w-6 h-6 bg-ink rounded-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 shadow-lg"></div>
+          </div>
+        </div>
+
+        <h2 class="font-display text-3xl font-semibold text-ink mb-3">Map your relationships</h2>
+        <p class="text-muted text-lg leading-relaxed mb-8 max-w-md mx-auto">
+          Visualize allies, advocates, decision-makers, and obstacles to navigate organizational relationships with confidence.
+        </p>
+
+        <button id="welcome-new-map-btn" class="inline-flex items-center gap-2 px-6 py-3 bg-ink text-white rounded-xl hover:bg-ink/80 transition-all hover:shadow-lg hover:shadow-ink/10 active:scale-[0.98] font-medium">
+          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+          </svg>
+          Create your first map
+        </button>
+      </div>
+
+      <!-- Template selection -->
+      <div class="mt-16 max-w-3xl mx-auto">
+        <div class="text-center mb-6">
+          <p class="text-sm text-muted uppercase tracking-wider font-medium">Or start from a template</p>
+        </div>
+        <div id="template-cards" class="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <!-- Templates inserted by JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Map workspace (shown when map is selected) -->
+    <div id="map-workspace" class="hidden">
+      <!-- Map info bar -->
+      <div class="flex items-center justify-between mb-6">
+        <div class="flex items-center gap-4">
+          <input id="map-name-input" type="text" class="font-display text-2xl font-semibold border-0 border-b-2 border-transparent hover:border-stone focus:border-ink focus:ring-0 bg-transparent placeholder:text-muted transition-colors" placeholder="Untitled map">
+          <span id="map-sector-badge" class="text-xs px-3 py-1.5 bg-cream text-muted rounded-full font-medium"></span>
+        </div>
+        <div class="flex items-center gap-3">
+          <label class="flex items-center gap-2 text-sm text-muted cursor-pointer hover:text-ink transition-colors">
+            <input type="checkbox" id="map-private-toggle" class="rounded border-stone text-ink focus:ring-ink/20 cursor-pointer">
+            <span>Private</span>
+          </label>
+          <div class="h-5 w-px bg-stone"></div>
+          <button id="delete-map-btn" class="text-sm px-3 py-1.5 text-obstacle hover:bg-obstacle-light rounded-lg transition-all">
+            Delete
+          </button>
+        </div>
+      </div>
+
+      <!-- View toggle -->
+      <div class="flex items-center gap-1 mb-6 bg-cream rounded-xl p-1 w-fit">
+        <button id="view-canvas-btn" class="px-4 py-2 text-sm font-medium rounded-lg bg-white text-ink shadow-sm transition-all">
+          Map view
+        </button>
+        <button id="view-list-btn" class="px-4 py-2 text-sm font-medium rounded-lg text-muted hover:text-ink transition-all">
+          List view
+        </button>
+      </div>
+
+      <!-- Canvas view -->
+      <div id="canvas-view" class="relative">
+        <!-- Toolbar -->
+        <div class="absolute top-4 left-4 z-10 flex items-center gap-2 bg-white/90 backdrop-blur-sm rounded-xl shadow-lg shadow-ink/5 p-2 border border-stone/50">
+          <button id="add-stakeholder-btn" class="flex items-center gap-2 px-4 py-2 bg-ink text-white text-sm rounded-lg hover:bg-ink/80 transition-all active:scale-[0.98] font-medium">
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+            </svg>
+            Add stakeholder
+          </button>
+          <div class="w-px h-6 bg-stone"></div>
+          <button id="zoom-in-btn" class="p-2 text-muted hover:text-ink hover:bg-cream rounded-lg transition-all" title="Zoom in">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607zM10.5 7.5v6m3-3h-6" />
+            </svg>
+          </button>
+          <button id="zoom-out-btn" class="p-2 text-muted hover:text-ink hover:bg-cream rounded-lg transition-all" title="Zoom out">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607zM13.5 10.5h-6" />
+            </svg>
+          </button>
+          <button id="zoom-reset-btn" class="p-2 text-muted hover:text-ink hover:bg-cream rounded-lg transition-all" title="Reset view">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 9V4.5M9 9H4.5M9 9L3.75 3.75M9 15v4.5M9 15H4.5M9 15l-5.25 5.25M15 9h4.5M15 9V4.5M15 9l5.25-5.25M15 15h4.5M15 15v4.5m0-4.5l5.25 5.25" />
+            </svg>
+          </button>
+        </div>
+
+        <!-- Legend -->
+        <div class="absolute top-4 right-4 z-10 bg-white/90 backdrop-blur-sm rounded-xl shadow-lg shadow-ink/5 p-4 border border-stone/50">
+          <div class="text-xs font-medium text-muted uppercase tracking-wider mb-3">Categories</div>
+          <div class="space-y-2.5 text-sm">
+            <div class="flex items-center gap-2.5">
+              <span class="w-3 h-3 rounded-full bg-ally shadow-sm"></span>
+              <span class="text-ink/80">Ally</span>
+            </div>
+            <div class="flex items-center gap-2.5">
+              <span class="w-3 h-3 rounded-full bg-advocate shadow-sm"></span>
+              <span class="text-ink/80">Advocate</span>
+            </div>
+            <div class="flex items-center gap-2.5">
+              <span class="w-3 h-3 rounded-full bg-decisionmaker shadow-sm"></span>
+              <span class="text-ink/80">Decision maker</span>
+            </div>
+            <div class="flex items-center gap-2.5">
+              <span class="w-3 h-3 rounded-full bg-obstacle shadow-sm"></span>
+              <span class="text-ink/80">Obstacle</span>
+            </div>
+            <div class="flex items-center gap-2.5">
+              <span class="w-3 h-3 rounded-full bg-dependency shadow-sm"></span>
+              <span class="text-ink/80">Dependency</span>
+            </div>
+            <div class="flex items-center gap-2.5">
+              <span class="w-3 h-3 rounded-full bg-opportunity shadow-sm"></span>
+              <span class="text-ink/80">Opportunity</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- SVG Canvas -->
+        <div id="canvas-container" class="bg-white rounded-2xl border border-stone overflow-hidden shadow-sm" style="height: 600px;">
+          <svg id="map-canvas" class="w-full h-full" style="cursor: grab; background: radial-gradient(circle at center, #faf9f7 0%, #f5f3ef 100%);">
+            <!-- Grid pattern -->
+            <defs>
+              <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+                <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#e8e4de" stroke-width="0.5" opacity="0.5"/>
+              </pattern>
+              <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                <polygon points="0 0, 10 3.5, 0 7" fill="#8a8580" />
+              </marker>
+            </defs>
+            <rect width="100%" height="100%" fill="url(#grid)" />
+            <g id="canvas-transform">
+              <g id="connections-layer"></g>
+              <g id="nodes-layer"></g>
+            </g>
+          </svg>
+        </div>
+
+        <!-- Canvas hint -->
+        <p class="text-center text-xs text-muted mt-3">Double-click canvas to add • Drag to move • Scroll to zoom</p>
+      </div>
+
+      <!-- List view -->
+      <div id="list-view" class="hidden">
+        <div class="flex items-center justify-between mb-6">
+          <div class="flex items-center gap-3">
+            <select id="filter-category" class="text-sm bg-cream border-0 rounded-lg text-ink focus:ring-2 focus:ring-ink/10 pr-8">
+              <option value="">All categories</option>
+              <option value="ally">Allies</option>
+              <option value="advocate">Advocates</option>
+              <option value="decisionmaker">Decision makers</option>
+              <option value="obstacle">Obstacles</option>
+              <option value="dependency">Dependencies</option>
+              <option value="opportunity">Opportunities</option>
+            </select>
+            <select id="filter-influence" class="text-sm bg-cream border-0 rounded-lg text-ink focus:ring-2 focus:ring-ink/10 pr-8">
+              <option value="">All influence</option>
+              <option value="high">High influence</option>
+              <option value="medium">Medium influence</option>
+              <option value="low">Low influence</option>
+            </select>
+          </div>
+          <button id="add-stakeholder-list-btn" class="flex items-center gap-2 px-4 py-2 bg-ink text-white text-sm rounded-lg hover:bg-ink/80 transition-all active:scale-[0.98] font-medium">
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+            </svg>
+            Add stakeholder
+          </button>
+        </div>
+
+        <div id="stakeholder-list" class="grid gap-4">
+          <!-- Stakeholder cards inserted by JS -->
+        </div>
+
+        <div id="empty-list-state" class="hidden text-center py-16">
+          <div class="w-16 h-16 mx-auto mb-4 bg-cream rounded-2xl flex items-center justify-center">
+            <svg class="w-8 h-8 text-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" />
+            </svg>
+          </div>
+          <h3 class="font-display text-lg font-semibold text-ink mb-2">No stakeholders yet</h3>
+          <p class="text-sm text-muted">Add your first stakeholder to start building your map.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Stakeholder modal -->
+  <div id="stakeholder-modal" class="hidden fixed inset-0 z-50 overflow-y-auto">
+    <div class="flex items-center justify-center min-h-screen px-4 py-8">
+      <div class="fixed inset-0 bg-ink/40 backdrop-blur-sm transition-opacity" id="modal-backdrop"></div>
+
+      <div class="relative bg-white rounded-2xl shadow-2xl shadow-ink/20 w-full max-w-lg transform transition-all">
+        <form id="stakeholder-form">
+          <div class="px-6 pt-6 pb-2">
+            <h3 id="modal-title" class="font-display text-xl font-semibold text-ink">Add stakeholder</h3>
+          </div>
+
+          <div class="px-6 py-4 space-y-5 max-h-[60vh] overflow-y-auto">
+            <div>
+              <label for="stakeholder-name" class="block text-sm font-medium text-ink mb-1.5">Name <span class="text-obstacle">*</span></label>
+              <input type="text" id="stakeholder-name" name="name" required class="w-full rounded-lg border-stone bg-cream/50 focus:border-ink focus:ring-ink/20 transition-colors placeholder:text-muted">
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <label for="stakeholder-role" class="block text-sm font-medium text-ink mb-1.5">Role/Title</label>
+                <input type="text" id="stakeholder-role" name="role" class="w-full rounded-lg border-stone bg-cream/50 focus:border-ink focus:ring-ink/20 transition-colors placeholder:text-muted">
+              </div>
+              <div>
+                <label for="stakeholder-org" class="block text-sm font-medium text-ink mb-1.5">Organization</label>
+                <input type="text" id="stakeholder-org" name="organization" class="w-full rounded-lg border-stone bg-cream/50 focus:border-ink focus:ring-ink/20 transition-colors placeholder:text-muted">
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <label for="stakeholder-category" class="block text-sm font-medium text-ink mb-1.5">Category <span class="text-obstacle">*</span></label>
+                <select id="stakeholder-category" name="category" required class="w-full rounded-lg border-stone bg-cream/50 focus:border-ink focus:ring-ink/20 transition-colors">
+                  <option value="">Select...</option>
+                  <option value="ally">Ally</option>
+                  <option value="advocate">Advocate</option>
+                  <option value="decisionmaker">Decision maker</option>
+                  <option value="obstacle">Obstacle</option>
+                  <option value="dependency">Dependency</option>
+                  <option value="opportunity">Opportunity</option>
+                </select>
+              </div>
+              <div>
+                <label for="stakeholder-influence" class="block text-sm font-medium text-ink mb-1.5">Influence</label>
+                <select id="stakeholder-influence" name="influence" class="w-full rounded-lg border-stone bg-cream/50 focus:border-ink focus:ring-ink/20 transition-colors">
+                  <option value="medium">Medium</option>
+                  <option value="high">High</option>
+                  <option value="low">Low</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label for="stakeholder-avatar" class="block text-sm font-medium text-ink mb-1.5">Photo URL <span class="text-muted font-normal">(optional)</span></label>
+              <input type="url" id="stakeholder-avatar" name="avatar" placeholder="https://..." class="w-full rounded-lg border-stone bg-cream/50 focus:border-ink focus:ring-ink/20 transition-colors placeholder:text-muted">
+            </div>
+
+            <div>
+              <label for="stakeholder-notes" class="block text-sm font-medium text-ink mb-1.5">Notes</label>
+              <textarea id="stakeholder-notes" name="notes" rows="2" class="w-full rounded-lg border-stone bg-cream/50 focus:border-ink focus:ring-ink/20 transition-colors placeholder:text-muted resize-none" placeholder="Context, history, relationship details..."></textarea>
+            </div>
+
+            <div>
+              <label for="stakeholder-tips" class="block text-sm font-medium text-ink mb-1.5">Interaction tips</label>
+              <textarea id="stakeholder-tips" name="interactionTips" rows="2" class="w-full rounded-lg border-stone bg-cream/50 focus:border-ink focus:ring-ink/20 transition-colors placeholder:text-muted resize-none" placeholder="Best way to reach them, preferences..."></textarea>
+            </div>
+
+            <div class="flex items-center gap-2 pt-2">
+              <input type="checkbox" id="stakeholder-private" name="private" class="rounded border-stone text-ink focus:ring-ink/20">
+              <label for="stakeholder-private" class="text-sm text-muted">Hide notes in shared exports</label>
+            </div>
+          </div>
+
+          <div class="px-6 py-4 bg-cream/50 rounded-b-2xl flex items-center justify-between">
+            <button type="button" id="modal-delete-btn" class="hidden px-4 py-2 text-obstacle text-sm font-medium hover:bg-obstacle-light rounded-lg transition-all">
+              Delete
+            </button>
+            <div class="flex items-center gap-3 ml-auto">
+              <button type="button" id="modal-cancel-btn" class="px-4 py-2 text-muted text-sm font-medium hover:text-ink hover:bg-cream rounded-lg transition-all">
+                Cancel
+              </button>
+              <button type="submit" class="px-5 py-2 bg-ink text-white text-sm font-medium rounded-lg hover:bg-ink/80 transition-all active:scale-[0.98]">
+                Save
+              </button>
+            </div>
+          </div>
+
+          <input type="hidden" id="stakeholder-id" name="id">
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- New map modal -->
+  <div id="new-map-modal" class="hidden fixed inset-0 z-50 overflow-y-auto">
+    <div class="flex items-center justify-center min-h-screen px-4 py-8">
+      <div class="fixed inset-0 bg-ink/40 backdrop-blur-sm transition-opacity" id="new-map-backdrop"></div>
+
+      <div class="relative bg-white rounded-2xl shadow-2xl shadow-ink/20 w-full max-w-md transform transition-all">
+        <form id="new-map-form">
+          <div class="px-6 pt-6 pb-2">
+            <h3 class="font-display text-xl font-semibold text-ink">Create new map</h3>
+          </div>
+
+          <div class="px-6 py-4 space-y-5">
+            <div>
+              <label for="new-map-name" class="block text-sm font-medium text-ink mb-1.5">Map name <span class="text-obstacle">*</span></label>
+              <input type="text" id="new-map-name" name="name" required class="w-full rounded-lg border-stone bg-cream/50 focus:border-ink focus:ring-ink/20 transition-colors placeholder:text-muted" placeholder="e.g., Q1 2026 Partnerships">
+            </div>
+
+            <div>
+              <label for="new-map-sector" class="block text-sm font-medium text-ink mb-1.5">Template</label>
+              <select id="new-map-sector" name="sector" class="w-full rounded-lg border-stone bg-cream/50 focus:border-ink focus:ring-ink/20 transition-colors">
+                <option value="custom">Blank canvas</option>
+                <option value="collaborative-reporting">Collaborative reporting</option>
+                <option value="training">Training & workshops</option>
+                <option value="research">Research</option>
+                <option value="membership">Membership/community</option>
+              </select>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <input type="checkbox" id="new-map-private" name="private" class="rounded border-stone text-ink focus:ring-ink/20">
+              <label for="new-map-private" class="text-sm text-muted">Private map (watermark on exports)</label>
+            </div>
+          </div>
+
+          <div class="px-6 py-4 bg-cream/50 rounded-b-2xl flex items-center justify-end gap-3">
+            <button type="button" id="new-map-cancel-btn" class="px-4 py-2 text-muted text-sm font-medium hover:text-ink hover:bg-cream rounded-lg transition-all">
+              Cancel
+            </button>
+            <button type="submit" class="px-5 py-2 bg-ink text-white text-sm font-medium rounded-lg hover:bg-ink/80 transition-all active:scale-[0.98]">
+              Create map
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Export menu dropdown -->
+  <div id="export-menu" class="hidden absolute z-50 w-56 rounded-xl shadow-xl shadow-ink/10 bg-white border border-stone overflow-hidden">
+    <div class="py-2" role="menu">
+      <button id="export-json-btn" class="w-full text-left px-4 py-2.5 text-sm text-ink hover:bg-cream transition-colors flex items-center gap-3" role="menuitem">
+        <svg class="w-4 h-4 text-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 6.75L22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3l-4.5 16.5" />
+        </svg>
+        Export as JSON
+      </button>
+      <button id="export-pdf-btn" class="w-full text-left px-4 py-2.5 text-sm text-ink hover:bg-cream transition-colors flex items-center gap-3" role="menuitem">
+        <svg class="w-4 h-4 text-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+        </svg>
+        Export field guide (PDF)
+      </button>
+      <button id="export-html-btn" class="w-full text-left px-4 py-2.5 text-sm text-ink hover:bg-cream transition-colors flex items-center gap-3" role="menuitem">
+        <svg class="w-4 h-4 text-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418" />
+        </svg>
+        Export standalone HTML
+      </button>
+      <button id="export-md-btn" class="w-full text-left px-4 py-2.5 text-sm text-ink hover:bg-cream transition-colors flex items-center gap-3" role="menuitem">
+        <svg class="w-4 h-4 text-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+        </svg>
+        Export as Markdown
+      </button>
+      <div class="my-2 border-t border-stone"></div>
+      <button id="export-all-btn" class="w-full text-left px-4 py-2.5 text-sm text-ink hover:bg-cream transition-colors flex items-center gap-3" role="menuitem">
+        <svg class="w-4 h-4 text-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5m8.25 3v6.75m0 0l-3-3m3 3l3-3M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
+        </svg>
+        Export all maps (JSON)
+      </button>
+    </div>
+  </div>
+
+  <!-- Connection modal -->
+  <div id="connection-modal" class="hidden fixed inset-0 z-50 overflow-y-auto">
+    <div class="flex items-center justify-center min-h-screen px-4 py-8">
+      <div class="fixed inset-0 bg-ink/40 backdrop-blur-sm transition-opacity" id="connection-backdrop"></div>
+
+      <div class="relative bg-white rounded-2xl shadow-2xl shadow-ink/20 w-full max-w-md transform transition-all">
+        <form id="connection-form">
+          <div class="px-6 pt-6 pb-2">
+            <h3 class="font-display text-xl font-semibold text-ink">Add connection</h3>
+          </div>
+
+          <div class="px-6 py-4 space-y-5">
+            <div>
+              <label for="connection-from" class="block text-sm font-medium text-ink mb-1.5">From</label>
+              <select id="connection-from" name="from" required class="w-full rounded-lg border-stone bg-cream/50 focus:border-ink focus:ring-ink/20 transition-colors">
+                <option value="">Select stakeholder...</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="connection-to" class="block text-sm font-medium text-ink mb-1.5">To</label>
+              <select id="connection-to" name="to" required class="w-full rounded-lg border-stone bg-cream/50 focus:border-ink focus:ring-ink/20 transition-colors">
+                <option value="">Select stakeholder...</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="connection-type" class="block text-sm font-medium text-ink mb-1.5">Relationship</label>
+              <select id="connection-type" name="type" class="w-full rounded-lg border-stone bg-cream/50 focus:border-ink focus:ring-ink/20 transition-colors">
+                <option value="works-with">Works with</option>
+                <option value="reports-to">Reports to</option>
+                <option value="influences">Influences</option>
+                <option value="blocks">Blocks</option>
+                <option value="supports">Supports</option>
+                <option value="depends-on">Depends on</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="connection-notes" class="block text-sm font-medium text-ink mb-1.5">Notes <span class="text-muted font-normal">(optional)</span></label>
+              <input type="text" id="connection-notes" name="notes" class="w-full rounded-lg border-stone bg-cream/50 focus:border-ink focus:ring-ink/20 transition-colors placeholder:text-muted" placeholder="e.g., Weekly check-ins">
+            </div>
+          </div>
+
+          <div class="px-6 py-4 bg-cream/50 rounded-b-2xl flex items-center justify-end gap-3">
+            <button type="button" id="connection-cancel-btn" class="px-4 py-2 text-muted text-sm font-medium hover:text-ink hover:bg-cream rounded-lg transition-all">
+              Cancel
+            </button>
+            <button type="submit" class="px-5 py-2 bg-ink text-white text-sm font-medium rounded-lg hover:bg-ink/80 transition-all active:scale-[0.98]">
+              Add connection
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hidden import input -->
+  <input type="file" id="import-file-input" accept=".json" class="hidden">
+
+  <!-- Scripts -->
+  <script src="js/storage.js"></script>
+  <script src="js/templates.js"></script>
+  <script src="js/canvas.js"></script>
+  <script src="js/export.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
