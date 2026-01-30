@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Green (ally) - top left -->
+  <circle cx="25" cy="25" r="22" fill="#2d9d5d"/>
+  <!-- Black (ink) - top center -->
+  <circle cx="50" cy="30" r="18" fill="#1a1a1a"/>
+  <!-- Blue (advocate) - top right -->
+  <circle cx="75" cy="35" r="20" fill="#4a7fc7"/>
+  <!-- Purple (decisionmaker) - bottom left -->
+  <circle cx="30" cy="65" r="18" fill="#8b5fc7"/>
+  <!-- Yellow (opportunity) - bottom right -->
+  <circle cx="65" cy="70" r="22" fill="#c4a82e"/>
+</svg>
