@@ -159,7 +159,42 @@ GitHub Pages is configured to build from the `/docs` folder on the `main` branch
 
 ## Import/export
 
-**Import format:** JSON only (not CSV)
+### CSV workflow (recommended for most users)
+
+For users who prefer spreadsheets over JSON, use the CSV template and Python converter:
+
+**Step 1:** Download `import-template.csv` and fill it out in Excel or Google Sheets
+
+**CSV columns:**
+| Column | Required | Description |
+|--------|----------|-------------|
+| name | Yes | Person's name |
+| category | Yes | ally, advocate, decisionmaker, obstacle, dependency, or opportunity |
+| role | No | Job title |
+| organization | No | Company/org name |
+| influence | No | high, medium, or low (default: medium) |
+| notes | No | Background info |
+| interaction_tips | No | How to work with them |
+| avatar_url | No | URL to photo |
+| is_private | No | true or false (default: false) |
+
+**Step 2:** Convert to JSON using the Python script:
+
+```bash
+python csv_to_json.py stakeholders.csv output.json
+# or just:
+python csv_to_json.py stakeholders.csv  # outputs to stakeholders_map.json
+```
+
+**Step 3:** Import the JSON file into the app using the Import button
+
+The script automatically:
+- Calculates positions using golden angle distribution
+- Validates categories and influence levels
+- Reports errors for invalid rows
+- Creates a properly formatted JSON file
+
+### JSON import (direct)
 
 The Import button accepts `.json` files in two formats:
 
@@ -217,7 +252,10 @@ The Import button accepts `.json` files in two formats:
 - `type` - One of: `reports-to`, `influences`, `blocks`, `supports`, `depends-on`
 - `notes` - Relationship details
 
-A template JSON file is available at `docs/import-template.json`.
+**Template files:**
+- `import-template.csv` - CSV template for spreadsheet users
+- `import-template.json` - JSON template for direct import
+- `csv_to_json.py` - Python script to convert CSV to JSON
 
 ## Known issues and fixes
 
