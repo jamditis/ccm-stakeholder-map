@@ -96,8 +96,11 @@ const App = {
     document.getElementById('import-file-input')?.addEventListener('change', (e) => this.handleImport(e));
 
     // Help modal (desktop + mobile)
-    document.getElementById('help-btn')?.addEventListener('click', () => this.openHelpModal());
-    document.getElementById('help-btn-mobile')?.addEventListener('click', () => this.openHelpModal());
+    const helpBtn = document.getElementById('help-btn');
+    const helpBtnMobile = document.getElementById('help-btn-mobile');
+    console.log('Help buttons found:', { helpBtn, helpBtnMobile });
+    helpBtn?.addEventListener('click', () => this.openHelpModal());
+    helpBtnMobile?.addEventListener('click', () => this.openHelpModal());
 
     // Legend expand toggle
     this.bindLegendExpand();
@@ -295,7 +298,11 @@ const App = {
    * Open help modal
    */
   openHelpModal() {
-    document.getElementById('help-modal')?.classList.remove('hidden');
+    const modal = document.getElementById('help-modal');
+    console.log('Opening help modal:', modal);
+    if (modal) {
+      modal.classList.remove('hidden');
+    }
   },
 
   /**
