@@ -36,15 +36,25 @@ const Export = {
     if (!map) return;
 
     const container = this.buildFieldGuideDOM(map);
-    container.style.cssText = 'position: absolute; left: -9999px; top: 0; width: 800px;';
+    // Use fixed positioning with opacity 0 instead of off-screen positioning
+    // This ensures html2pdf can properly measure and render the content
+    container.style.cssText = 'position: fixed; left: 0; top: 0; width: 800px; background: white; z-index: -9999; opacity: 0;';
     document.body.appendChild(container);
+
+    // Wait for DOM to be ready
+    await new Promise(resolve => setTimeout(resolve, 100));
 
     try {
       const opt = {
         margin: [15, 15, 15, 15],
         filename: this.sanitizeFilename(map.name) + '-field-guide.pdf',
         image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2, useCORS: true },
+        html2canvas: {
+          scale: 2,
+          useCORS: true,
+          backgroundColor: '#ffffff',
+          logging: false
+        },
         jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
       };
 
