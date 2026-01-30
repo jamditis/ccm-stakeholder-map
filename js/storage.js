@@ -361,6 +361,185 @@ const Storage = {
   },
 
   /**
+   * Parse CSV string into array of objects
+   */
+  parseCSV(csvString) {
+    const lines = csvString.split(/\r?\n/).filter(line => line.trim());
+    if (lines.length < 2) return [];
+
+    // Parse header row
+    const headers = this.parseCSVLine(lines[0]).map(h =>
+      h.toLowerCase().trim().replace(/\s+/g, '_')
+    );
+
+    // Parse data rows
+    const rows = [];
+    for (let i = 1; i < lines.length; i++) {
+      const values = this.parseCSVLine(lines[i]);
+      if (values.length === 0 || values.every(v => !v.trim())) continue;
+
+      const row = {};
+      headers.forEach((header, index) => {
+        row[header] = values[index]?.trim() || '';
+      });
+      rows.push(row);
+    }
+    return rows;
+  },
+
+  /**
+   * Parse a single CSV line handling quoted values
+   */
+  parseCSVLine(line) {
+    const result = [];
+    let current = '';
+    let inQuotes = false;
+
+    for (let i = 0; i < line.length; i++) {
+      const char = line[i];
+      const nextChar = line[i + 1];
+
+      if (inQuotes) {
+        if (char === '"' && nextChar === '"') {
+          current += '"';
+          i++;
+        } else if (char === '"') {
+          inQuotes = false;
+        } else {
+          current += char;
+        }
+      } else {
+        if (char === '"') {
+          inQuotes = true;
+        } else if (char === ',') {
+          result.push(current);
+          current = '';
+        } else {
+          current += char;
+        }
+      }
+    }
+    result.push(current);
+    return result;
+  },
+
+  /**
+   * Calculate positions for stakeholders using golden angle
+   */
+  calculatePositions(count, centerX = 500, centerY = 350, radius = 200) {
+    const positions = [];
+    const goldenAngle = Math.PI * (3 - Math.sqrt(5));
+
+    for (let i = 0; i < count; i++) {
+      const angle = i * goldenAngle;
+      const r = radius * (0.5 + 0.5 * (i / Math.max(count - 1, 1)));
+      positions.push({
+        x: Math.round(centerX + r * Math.cos(angle)),
+        y: Math.round(centerY + r * Math.sin(angle))
+      });
+    }
+    return positions;
+  },
+
+  /**
+   * Import stakeholders from CSV string
+   */
+  importCSV(csvString, mapName = 'Imported Map') {
+    const VALID_CATEGORIES = ['ally', 'advocate', 'decisionmaker', 'obstacle', 'dependency', 'opportunity'];
+    const VALID_INFLUENCE = ['high', 'medium', 'low'];
+
+    try {
+      const rows = this.parseCSV(csvString);
+      if (rows.length === 0) {
+        return { success: false, error: 'No data found in CSV' };
+      }
+
+      const stakeholders = [];
+      const errors = [];
+
+      rows.forEach((row, index) => {
+        const rowNum = index + 2; // Account for header row
+
+        // Required: name
+        const name = row.name?.trim();
+        if (!name) {
+          errors.push(`Row ${rowNum}: Missing required field 'name'`);
+          return;
+        }
+
+        // Required: category
+        const category = row.category?.toLowerCase().trim();
+        if (!category || !VALID_CATEGORIES.includes(category)) {
+          errors.push(`Row ${rowNum}: Invalid category '${category}'. Must be one of: ${VALID_CATEGORIES.join(', ')}`);
+          return;
+        }
+
+        // Optional: influence (default: medium)
+        let influence = row.influence?.toLowerCase().trim() || 'medium';
+        if (!VALID_INFLUENCE.includes(influence)) {
+          influence = 'medium';
+        }
+
+        // Optional: isPrivate (default: false)
+        const isPrivate = ['true', 'yes', '1', 'y'].includes(
+          (row.is_private || row.isprivate || '').toLowerCase().trim()
+        );
+
+        stakeholders.push({
+          name,
+          role: row.role?.trim() || '',
+          organization: row.organization?.trim() || '',
+          category,
+          influence,
+          notes: row.notes?.trim() || '',
+          interactionTips: (row.interaction_tips || row.interactiontips || '').trim(),
+          avatar: (row.avatar_url || row.avatar || '').trim(),
+          isPrivate
+        });
+      });
+
+      if (stakeholders.length === 0) {
+        return {
+          success: false,
+          error: 'No valid stakeholders found',
+          errors
+        };
+      }
+
+      // Add positions
+      const positions = this.calculatePositions(stakeholders.length);
+      stakeholders.forEach((s, i) => {
+        s.position = positions[i];
+      });
+
+      // Create the map
+      const mapData = {
+        name: mapName,
+        sector: 'custom',
+        isPrivate: false,
+        stakeholders,
+        connections: []
+      };
+
+      const newMap = this.importMap(JSON.stringify(mapData));
+
+      if (newMap) {
+        return {
+          success: true,
+          mapId: newMap.id,
+          stakeholderCount: stakeholders.length,
+          errors: errors.length > 0 ? errors : null
+        };
+      } else {
+        return { success: false, error: 'Failed to create map' };
+      }
+    } catch (e) {
+      console.error('CSV import error:', e);
+      return { success: false, error: e.message };
+    }
+  },
+
+  /**
    * Clear all data (for testing/reset)
    */
   clearAll() {

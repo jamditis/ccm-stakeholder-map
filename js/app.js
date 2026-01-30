@@ -335,13 +335,70 @@ const App = {
       this.closeImportMenu();
     });
 
-    // Download CSV and Get converter buttons close menu on click
+    // Import CSV button
+    document.getElementById('import-csv-btn')?.addEventListener('click', () => {
+      document.getElementById('import-csv-input')?.click();
+      this.closeImportMenu();
+    });
+
+    // CSV file input handler
+    document.getElementById('import-csv-input')?.addEventListener('change', (e) => {
+      this.handleCSVImport(e);
+    });
+
+    // Download CSV button closes menu
     document.getElementById('download-csv-btn')?.addEventListener('click', () => {
       this.closeImportMenu();
     });
-    document.getElementById('get-converter-btn')?.addEventListener('click', () => {
-      this.closeImportMenu();
-    });
+  },
+
+  /**
+   * Handle CSV file import
+   */
+  handleCSVImport(event) {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const csvContent = e.target?.result;
+      if (typeof csvContent !== 'string') return;
+
+      // Use filename (without extension) as map name
+      const mapName = file.name.replace(/\.csv$/i, '').replace(/[-_]/g, ' ');
+
+      const result = Storage.importCSV(csvContent, mapName);
+
+      if (result.success) {
+        this.loadMaps();
+        this.selectMap(result.mapId);
+
+        // Show success message
+        let message = `Imported ${result.stakeholderCount} stakeholders`;
+        if (result.errors && result.errors.length > 0) {
+          message += `\n\nWarnings:\n${result.errors.slice(0, 5).join('\n')}`;
+          if (result.errors.length > 5) {
+            message += `\n...and ${result.errors.length - 5} more`;
+          }
+        }
+        alert(message);
+      } else {
+        let errorMsg = `Import failed: ${result.error}`;
+        if (result.errors && result.errors.length > 0) {
+          errorMsg += `\n\nErrors:\n${result.errors.slice(0, 5).join('\n')}`;
+        }
+        alert(errorMsg);
+      }
+    };
+
+    reader.onerror = () => {
+      alert('Failed to read file');
+    };
+
+    reader.readAsText(file);
+
+    // Reset input so same file can be selected again
+    event.target.value = '';
   },
 
   /**
