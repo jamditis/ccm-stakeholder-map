@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en" data-game="remix">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plan remix &mdash; Strategic plan workshop</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .rule-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin: var(--space-md) 0;
+    }
+    .rule-card {
+      background: var(--warm-white);
+      border-radius: var(--radius-md);
+      padding: var(--space-md);
+      box-shadow: 0 1px 6px var(--shadow);
+      text-align: center;
+    }
+    .rule-card .rule-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+    .rule-card .rule-name {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+    }
+    .rule-card .rule-desc { font-size: 0.85rem; color: var(--text-light); }
+    .remix-example {
+      background: var(--warm-white);
+      border-radius: var(--radius-md);
+      padding: var(--space-md);
+      box-shadow: 0 2px 8px var(--shadow);
+      margin-bottom: 1rem;
+    }
+    .remix-example h4 {
+      font-family: 'DM Serif Display', serif;
+      margin-bottom: 0.5rem;
+    }
+    .remix-label {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 0.15rem 0.5rem;
+      border-radius: 50px;
+      margin-bottom: 0.5rem;
+    }
+    .remix-label-cut { background: color-mix(in srgb, var(--accent-debate) 15%, white); color: var(--accent-debate); }
+    .remix-label-add { background: color-mix(in srgb, var(--accent-auction) 15%, white); color: var(--accent-auction); }
+    .remix-label-rewrite { background: color-mix(in srgb, var(--accent-remix) 15%, white); color: var(--accent-remix); }
+    .vote-section {
+      background: color-mix(in srgb, var(--accent) 6%, var(--cream));
+      border-radius: var(--radius-md);
+      padding: var(--space-md);
+      margin: var(--space-md) 0;
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-brand">Workshop games</a>
+      <ul class="nav-links">
+        <li><a href="word-games.html">Word games</a></li>
+        <li><a href="priority-auction.html">Priority auction</a></li>
+        <li><a href="devils-advocate.html">Devil's advocate</a></li>
+        <li><a href="stakeholder-lens.html">Stakeholder lens</a></li>
+        <li><a href="assumption-mapper.html">Assumption mapper</a></li>
+        <li><a href="plan-remix.html" class="active">Plan remix</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="container">
+    <a href="index.html" class="back-link">&larr; All games</a>
+
+    <section class="hero">
+      <div class="hero-badge">Creative editing</div>
+      <h1>Plan remix</h1>
+      <p class="hero-subtitle">Teams get editing power over the plan: cut two things, add one thing, rewrite one thing. The constraint forces hard choices &mdash; and the results show you what your team would actually change if they could.</p>
+      <div class="hero-meta">
+        <span class="hero-meta-item">30-40 minutes</span>
+        <span class="hero-meta-item">Best with 6-16 people</span>
+        <span class="hero-meta-item">Breakout rooms</span>
+      </div>
+    </section>
+
+    <section class="section" id="concept">
+      <div class="section-label">The rules</div>
+      <h2>The remix constraints</h2>
+      <p>Each team gets exactly four moves. No more, no less. The tight constraint prevents the exercise from becoming an open-ended rewrite and forces real prioritization.</p>
+
+      <div class="rule-cards">
+        <div class="rule-card" style="border-top: 3px solid var(--accent-debate);">
+          <div class="rule-icon">&#9986;</div>
+          <div class="rule-name">Cut two things</div>
+          <div class="rule-desc">Remove two goals, strategies, or sections from the plan. Must explain why each cut makes the plan stronger, not weaker.</div>
+        </div>
+        <div class="rule-card" style="border-top: 3px solid var(--accent-auction);">
+          <div class="rule-icon">&#10010;</div>
+          <div class="rule-name">Add one thing</div>
+          <div class="rule-desc">Add one goal, strategy, or element that's missing from the plan. Must explain why it belongs and where it fits.</div>
+        </div>
+        <div class="rule-card" style="border-top: 3px solid var(--accent-remix);">
+          <div class="rule-icon">&#9997;</div>
+          <div class="rule-name">Rewrite one thing</div>
+          <div class="rule-desc">Rewrite one existing section, goal, or strategy to make it clearer, bolder, or more actionable. Show the before and after.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="how">
+      <div class="section-label">How to run it</div>
+      <h2>Step by step</h2>
+
+      <div class="activity-layout">
+        <div>
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="timeline-time">0:00 &mdash; 0:03</div>
+              <div class="timeline-title">Explain the rules</div>
+              <div class="timeline-desc">Share the constraints (cut 2, add 1, rewrite 1). Make it clear: this isn't about perfection, it's about forcing choices. There are no wrong answers.</div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-time">0:03 &mdash; 0:18</div>
+              <div class="timeline-title">Remix in breakout rooms</div>
+              <div class="timeline-desc">15 minutes. Teams read the plan together, debate their edits, and prepare to present their remix. Each team should fill in the remix worksheet (below).</div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-time">0:18 &mdash; 0:30</div>
+              <div class="timeline-title">Present and defend</div>
+              <div class="timeline-desc">Each team gets 3 minutes to present their remix and explain each choice. Other teams can ask one clarifying question per remix.</div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-time">0:30 &mdash; 0:40</div>
+              <div class="timeline-title">Vote and discuss</div>
+              <div class="timeline-desc">Everyone votes on the single best idea across all remixes. Discuss: should any of these edits actually make it into the plan?</div>
+            </div>
+          </div>
+
+          <h3>Example remix</h3>
+          <p style="font-size: 0.9rem; color: var(--text-light);">This uses generic plan language. Your team's remixes will be specific to your actual plan.</p>
+
+          <div class="remix-example">
+            <div class="remix-label remix-label-cut">Cut #1</div>
+            <h4>"Establish an innovation lab by year 2"</h4>
+            <p style="font-size: 0.9rem; color: var(--text-light); margin: 0;"><strong>Why:</strong> We don't have the budget or staff for a dedicated lab. Innovation should be embedded in existing programs, not siloed. Cutting this frees resources for goals we can actually achieve.</p>
+          </div>
+
+          <div class="remix-example">
+            <div class="remix-label remix-label-cut">Cut #2</div>
+            <h4>"Grow social media following by 200%"</h4>
+            <p style="font-size: 0.9rem; color: var(--text-light); margin: 0;"><strong>Why:</strong> Follower counts don't measure impact. Replace this vanity metric with engagement metrics tied to actual program outcomes.</p>
+          </div>
+
+          <div class="remix-example">
+            <div class="remix-label remix-label-add">Add</div>
+            <h4>"Create a staff retention and development strategy"</h4>
+            <p style="font-size: 0.9rem; color: var(--text-light); margin: 0;"><strong>Why:</strong> Every goal in this plan depends on having the right people. We've lost 4 key staff in the past year. If we don't address retention, nothing else in this plan will work.</p>
+          </div>
+
+          <div class="remix-example">
+            <div class="remix-label remix-label-rewrite">Rewrite</div>
+            <h4>"Strengthen community partnerships" &rarr; "Establish 3 formal partnership agreements with measurable shared outcomes by December 2026"</h4>
+            <p style="font-size: 0.9rem; color: var(--text-light); margin: 0;"><strong>Why:</strong> The original is too vague to act on or measure. The rewrite gives a number, a deadline, and a standard for what counts as a partnership.</p>
+          </div>
+        </div>
+
+        <div class="sidebar">
+          <div class="tip-box">
+            <h4>Facilitator tips</h4>
+            <ul>
+              <li>Emphasize that <strong>cuts are not insults</strong>. Cutting something means the team is being honest about capacity and focus.</li>
+              <li>If a team can't agree on what to cut, that's great data. Ask them to present the disagreement.</li>
+              <li>The "add" is often the most revealing move. What people want to add shows what they feel the plan is missing.</li>
+              <li>Push teams to make their rewrite specific. "Make it better" isn't a rewrite. Show the exact new language.</li>
+              <li>If the same item gets cut by multiple teams, that's a strong signal.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="worksheet">
+      <div class="section-label">Materials</div>
+      <h2>Remix worksheet</h2>
+      <p>Teams fill this in during the breakout room. You can copy this into a shared Google Doc or have teams work directly in the doc.</p>
+
+      <div class="remix-board">
+        <div class="remix-slot remix-cut">
+          <div class="remix-slot-label">Cut #1</div>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0;">What are you removing?<br>Why does cutting it make the plan stronger?</p>
+        </div>
+        <div class="remix-slot remix-cut">
+          <div class="remix-slot-label">Cut #2</div>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0;">What are you removing?<br>Why does cutting it make the plan stronger?</p>
+        </div>
+        <div class="remix-slot remix-add">
+          <div class="remix-slot-label">Add</div>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0;">What's missing?<br>Why does it belong in the plan?</p>
+        </div>
+        <div class="remix-slot remix-rewrite">
+          <div class="remix-slot-label">Rewrite</div>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0;">Before: [original text]<br>After: [your improved version]</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="vote">
+      <div class="section-label">After the presentations</div>
+      <h2>Voting and discussion</h2>
+
+      <div class="vote-section">
+        <h3>The vote</h3>
+        <p>After all teams present, everyone votes on the <strong>single best idea</strong> across all remixes (any team, any move type). Use Zoom polls, chat, or raise hands. The winning idea gets serious consideration for the actual plan.</p>
+      </div>
+
+      <div class="discussion-prompts">
+        <div class="discussion-prompt">Did multiple teams cut the same thing? That's a consensus signal &mdash; the plan is probably trying to do too much in that area.</div>
+        <div class="discussion-prompt">Did multiple teams add the same thing? That's a gap the plan needs to fill.</div>
+        <div class="discussion-prompt">Look at all the rewrites: do they share a theme? (Vagueness? Missing metrics? Wrong tone?) That theme is a systemic issue in the plan.</div>
+        <div class="discussion-prompt">Which remix ideas should actually make it into the next draft?</div>
+      </div>
+    </section>
+
+    <section class="section" id="customize">
+      <div class="section-label">Customize</div>
+      <h2>Pre-session notes</h2>
+      <p>Use this space to note any sections of the plan you want to flag for teams, or specific areas where you're looking for feedback.</p>
+      <textarea class="customize-area" placeholder="Sections I want teams to pay attention to:
+- [Section/goal that I suspect needs work]
+- [Section that generated debate during drafting]
+- [Section where we're least confident]
+
+Things I'm hoping the remix reveals:
+- Whether the team thinks we're trying to do too much
+- Which goals feel vague or unmeasurable
+- What's missing that everyone assumes will be addressed"></textarea>
+      <div style="margin-top: 1rem;">
+        <button class="btn btn-primary" onclick="window.print()">Print this page</button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>Strategic plan workshop games &middot; <a href="index.html">Back to all games</a></p>
+  </footer>
+</body>
+</html>

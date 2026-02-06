@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en" data-game="auction">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Priority auction &mdash; Strategic plan workshop</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .budget-display {
+      background: var(--accent);
+      color: white;
+      border-radius: var(--radius-md);
+      padding: var(--space-md) var(--space-lg);
+      text-align: center;
+      margin: var(--space-md) 0;
+    }
+    .budget-display .amount {
+      font-family: 'DM Serif Display', serif;
+      font-size: 3rem;
+      line-height: 1;
+    }
+    .budget-display .label { font-size: 0.85rem; opacity: 0.85; margin-top: 0.25rem; }
+    .round-card {
+      background: var(--warm-white);
+      border-radius: var(--radius-md);
+      padding: var(--space-md);
+      margin-bottom: 1rem;
+      box-shadow: 0 1px 6px var(--shadow);
+      border-left: 4px solid var(--accent);
+    }
+    .round-card h4 {
+      font-family: 'DM Serif Display', serif;
+      margin-bottom: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-brand">Workshop games</a>
+      <ul class="nav-links">
+        <li><a href="word-games.html">Word games</a></li>
+        <li><a href="priority-auction.html" class="active">Priority auction</a></li>
+        <li><a href="devils-advocate.html">Devil's advocate</a></li>
+        <li><a href="stakeholder-lens.html">Stakeholder lens</a></li>
+        <li><a href="assumption-mapper.html">Assumption mapper</a></li>
+        <li><a href="plan-remix.html">Plan remix</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="container">
+    <a href="index.html" class="back-link">&larr; All games</a>
+
+    <section class="hero">
+      <div class="hero-badge">Resource allocation</div>
+      <h1>Priority auction</h1>
+      <p class="hero-subtitle">Everyone gets 100 strategy bucks. Priorities go up for auction one at a time. Where your team spends its money reveals what it truly values &mdash; and what it's willing to let go.</p>
+      <div class="hero-meta">
+        <span class="hero-meta-item">25-30 minutes</span>
+        <span class="hero-meta-item">Best with 6-20 people</span>
+        <span class="hero-meta-item">Zoom-friendly</span>
+      </div>
+    </section>
+
+    <section class="section" id="concept">
+      <div class="section-label">The concept</div>
+      <h2>Why fake money works</h2>
+      <p>Saying "everything in the plan is important" is easy. Spending limited currency on it is hard. The auction forces real trade-offs: if you spend $40 on Goal 1, you only have $60 left for everything else. This makes abstract strategic priorities feel concrete and personal.</p>
+
+      <div class="budget-display">
+        <div class="amount">$100</div>
+        <div class="label">per person &middot; spend it wisely</div>
+      </div>
+
+      <h3>What you need from the plan</h3>
+      <p>Before the session, pull out 6-10 distinct priorities, goals, or strategies from your strategic plan. Each one becomes an auction item. Write a one-sentence description for each so everyone understands what they're bidding on.</p>
+    </section>
+
+    <section class="section" id="how">
+      <div class="section-label">How to run it</div>
+      <h2>Step by step</h2>
+
+      <div class="activity-layout">
+        <div>
+          <div class="round-card">
+            <h4>1. Set up (3 min)</h4>
+            <p>Share the list of auction items (your plan's priorities). Announce that each person has $100 to spread across all items. Bids are made individually, not as teams. You can bid any amount on any item, but your total can't exceed $100.</p>
+          </div>
+
+          <div class="round-card">
+            <h4>2. Silent bidding round (5 min)</h4>
+            <p>Each person fills in their bids privately. Use a shared spreadsheet (Google Sheets works well) where each person has a column. Or just have people type their bids in a text doc. Nobody sees others' bids until the reveal.</p>
+          </div>
+
+          <div class="round-card">
+            <h4>3. The reveal (3 min)</h4>
+            <p>Facilitator tallies the totals and shares the results. Rank items by total bids received. The item that got the most total money across all participants is the team's top priority. The item that got the least is the one people are most willing to deprioritize.</p>
+          </div>
+
+          <div class="round-card">
+            <h4>4. Discussion (10-15 min)</h4>
+            <p>This is where the real value lives. Walk through the results and ask:</p>
+            <ul style="padding-left: 1.2rem; margin-top: 0.5rem;">
+              <li>Why did [top item] get so much? Is it under-resourced in the current plan?</li>
+              <li>Why did [bottom item] get so little? Should it be cut or reframed?</li>
+              <li>Did anyone go all-in on one item? Why?</li>
+              <li>Were there any items where spending was evenly split? That might mean the team is ambivalent.</li>
+            </ul>
+          </div>
+
+          <div class="round-card">
+            <h4>5. Optional: Round 2 (5 min)</h4>
+            <p>After the discussion, give everyone another $100 and run the auction again. Bids often shift after hearing other people's reasoning. The shift itself is interesting data.</p>
+          </div>
+        </div>
+
+        <div class="sidebar">
+          <div class="tip-box">
+            <h4>Facilitator tips</h4>
+            <ul>
+              <li>Keep auction items to 6-10. More than that and the bidding feels diffuse.</li>
+              <li>Use a Google Sheet template with items as rows and participant names as columns. Auto-sum the totals.</li>
+              <li>Don't enforce minimum bids. Putting $0 on an item is a meaningful signal.</li>
+              <li>Watch for "spread evenly" bidders &mdash; they're avoiding trade-offs. Gently call it out.</li>
+              <li>The ranking matters more than the exact amounts. Focus discussion on the order.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="template">
+      <div class="section-label">Materials</div>
+      <h2>Bid tracking template</h2>
+      <p>Use this as a starting point. Replace the example priorities with your plan's actual goals or strategies.</p>
+
+      <table class="bid-table">
+        <thead>
+          <tr>
+            <th>Priority / goal</th>
+            <th>Your bid</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>[Goal 1 from your plan]</td>
+            <td><input type="number" class="bid-input" min="0" max="100" value="0"></td>
+            <td style="color: var(--text-muted); font-size: 0.85rem;">Brief description of this goal</td>
+          </tr>
+          <tr>
+            <td>[Goal 2 from your plan]</td>
+            <td><input type="number" class="bid-input" min="0" max="100" value="0"></td>
+            <td style="color: var(--text-muted); font-size: 0.85rem;">Brief description of this goal</td>
+          </tr>
+          <tr>
+            <td>[Goal 3 from your plan]</td>
+            <td><input type="number" class="bid-input" min="0" max="100" value="0"></td>
+            <td style="color: var(--text-muted); font-size: 0.85rem;">Brief description of this goal</td>
+          </tr>
+          <tr>
+            <td>[Goal 4 from your plan]</td>
+            <td><input type="number" class="bid-input" min="0" max="100" value="0"></td>
+            <td style="color: var(--text-muted); font-size: 0.85rem;">Brief description of this goal</td>
+          </tr>
+          <tr>
+            <td>[Goal 5 from your plan]</td>
+            <td><input type="number" class="bid-input" min="0" max="100" value="0"></td>
+            <td style="color: var(--text-muted); font-size: 0.85rem;">Brief description of this goal</td>
+          </tr>
+          <tr>
+            <td>[Goal 6 from your plan]</td>
+            <td><input type="number" class="bid-input" min="0" max="100" value="0"></td>
+            <td style="color: var(--text-muted); font-size: 0.85rem;">Brief description of this goal</td>
+          </tr>
+          <tr style="font-weight: 600;">
+            <td>Total</td>
+            <td id="bid-total" style="text-align: center;">$0</td>
+            <td style="color: var(--text-muted); font-size: 0.85rem;">Must not exceed $100</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="callout">
+        <div class="callout-label">For Zoom sessions</div>
+        <p style="margin: 0;">Create a Google Sheet version of this table. Share the link in chat. Each person gets their own column. The facilitator can see all bids update in real time, but participants should avoid looking at others' columns until the reveal.</p>
+      </div>
+    </section>
+
+    <section class="section" id="discussion">
+      <div class="section-label">After the auction</div>
+      <h2>Discussion prompts</h2>
+      <div class="discussion-prompts">
+        <div class="discussion-prompt">Look at the top-funded priority. Does the plan give it enough attention, or is it buried?</div>
+        <div class="discussion-prompt">Look at the lowest-funded priority. Should it be cut from the plan, or does it just need better framing?</div>
+        <div class="discussion-prompt">Did anyone spend more than $50 on a single item? What made it worth that much to them?</div>
+        <div class="discussion-prompt">If we ran this auction with our board / funders / community, would the results be different? How?</div>
+      </div>
+    </section>
+
+    <section class="section" id="customize">
+      <div class="section-label">Customize</div>
+      <h2>Your auction items</h2>
+      <p>List your plan's priorities below. Aim for 6-10 items, each with a brief one-sentence description.</p>
+      <textarea class="customize-area" placeholder="1. [Goal name] — Brief description of what this means
+2. [Goal name] — Brief description
+3. [Goal name] — Brief description
+..."></textarea>
+      <div style="margin-top: 1rem;">
+        <button class="btn btn-primary" onclick="window.print()">Print this page</button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>Strategic plan workshop games &middot; <a href="index.html">Back to all games</a></p>
+  </footer>
+
+  <script>
+    document.querySelectorAll('.bid-input').forEach(input => {
+      input.addEventListener('input', () => {
+        let total = 0;
+        document.querySelectorAll('.bid-input').forEach(i => {
+          total += parseInt(i.value) || 0;
+        });
+        const el = document.getElementById('bid-total');
+        el.textContent = '$' + total;
+        el.style.color = total > 100 ? 'var(--accent-debate)' : 'inherit';
+      });
+    });
+  </script>
+</body>
+</html>

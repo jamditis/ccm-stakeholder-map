@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en" data-game="assumption">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Assumption mapper &mdash; Strategic plan workshop</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .confidence-badge {
+      display: inline-block;
+      padding: 0.2rem 0.7rem;
+      border-radius: 50px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+    .confidence-high { background: color-mix(in srgb, var(--accent-auction) 15%, white); color: var(--accent-auction); }
+    .confidence-mid { background: color-mix(in srgb, var(--accent-assumption) 15%, white); color: var(--accent-assumption); }
+    .confidence-low { background: color-mix(in srgb, var(--accent-debate) 15%, white); color: var(--accent-debate); }
+    .assumption-card {
+      background: var(--warm-white);
+      border-radius: var(--radius-md);
+      padding: var(--space-md);
+      box-shadow: 0 1px 6px var(--shadow);
+      margin-bottom: 1rem;
+    }
+    .assumption-card h4 {
+      font-family: 'DM Serif Display', serif;
+      margin-bottom: 0.25rem;
+    }
+    .assumption-card .goal-ref {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 0.75rem;
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-brand">Workshop games</a>
+      <ul class="nav-links">
+        <li><a href="word-games.html">Word games</a></li>
+        <li><a href="priority-auction.html">Priority auction</a></li>
+        <li><a href="devils-advocate.html">Devil's advocate</a></li>
+        <li><a href="stakeholder-lens.html">Stakeholder lens</a></li>
+        <li><a href="assumption-mapper.html" class="active">Assumption mapper</a></li>
+        <li><a href="plan-remix.html">Plan remix</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="container">
+    <a href="index.html" class="back-link">&larr; All games</a>
+
+    <section class="hero">
+      <div class="hero-badge">Analytical</div>
+      <h1>Assumption mapper</h1>
+      <p class="hero-subtitle">Every strategic goal rests on assumptions &mdash; things that need to be true for the goal to succeed. Most of them are invisible. This exercise makes them visible so you can decide which ones to test, mitigate, or accept.</p>
+      <div class="hero-meta">
+        <span class="hero-meta-item">25-30 minutes</span>
+        <span class="hero-meta-item">Best with 6-16 people</span>
+        <span class="hero-meta-item">Breakout rooms</span>
+      </div>
+    </section>
+
+    <section class="section" id="concept">
+      <div class="section-label">The concept</div>
+      <h2>"What would have to be true?"</h2>
+      <p>For each major goal in the plan, teams ask: "What would have to be true for this to succeed?" The answers reveal hidden dependencies &mdash; funding assumptions, staffing assumptions, market assumptions, partnership assumptions &mdash; that the plan might not explicitly address.</p>
+
+      <p>Then teams rate each assumption on confidence: are we sure this is true, or are we guessing? The assumptions you're least confident about are the plan's biggest risks.</p>
+
+      <div class="callout">
+        <div class="callout-label">The key question</div>
+        <p style="margin: 0; font-family: 'DM Serif Display', serif; font-size: 1.2rem;">"For [Goal X] to succeed, what would have to be true that we haven't explicitly stated or verified?"</p>
+      </div>
+    </section>
+
+    <section class="section" id="how">
+      <div class="section-label">How to run it</div>
+      <h2>Step by step</h2>
+
+      <div class="activity-layout">
+        <div>
+          <div class="steps">
+            <div class="step">
+              <div class="step-number">1</div>
+              <div class="step-title">Assign goals</div>
+              <div class="step-desc">Give each team 1-2 goals from the plan. Teams should read the relevant sections closely.</div>
+            </div>
+            <div class="step">
+              <div class="step-number">2</div>
+              <div class="step-title">List assumptions</div>
+              <div class="step-desc">10 min in breakout rooms. For each goal, list every assumption that must hold true for it to work.</div>
+            </div>
+            <div class="step">
+              <div class="step-number">3</div>
+              <div class="step-title">Rate confidence</div>
+              <div class="step-desc">For each assumption, rate: Confident (we have evidence), Uncertain (we think so), or Risky (we're guessing).</div>
+            </div>
+            <div class="step">
+              <div class="step-number">4</div>
+              <div class="step-title">Map and discuss</div>
+              <div class="step-desc">Share findings. Plot on a 2x2 matrix. Focus discussion on high-impact, low-confidence assumptions.</div>
+            </div>
+          </div>
+
+          <h3>Example assumptions</h3>
+          <p>To show your team what you mean by "assumptions," here are examples tied to generic strategic goals:</p>
+
+          <div class="assumption-card">
+            <h4>"Increase community engagement by 40%"</h4>
+            <div class="goal-ref">Example goal</div>
+            <ul style="padding-left: 1.2rem; font-size: 0.9rem;">
+              <li>We have accurate baseline data on current engagement <span class="confidence-badge confidence-mid">Uncertain</span></li>
+              <li>Our definition of "engagement" is shared across the team <span class="confidence-badge confidence-low">Risky</span></li>
+              <li>The community wants to engage more (not just us wanting them to) <span class="confidence-badge confidence-mid">Uncertain</span></li>
+              <li>We have staff capacity to support increased engagement <span class="confidence-badge confidence-low">Risky</span></li>
+              <li>Current communication channels reach the people we're targeting <span class="confidence-badge confidence-high">Confident</span></li>
+            </ul>
+          </div>
+
+          <div class="assumption-card">
+            <h4>"Launch two new programs by year 3"</h4>
+            <div class="goal-ref">Example goal</div>
+            <ul style="padding-left: 1.2rem; font-size: 0.9rem;">
+              <li>Funding will be available for new programs <span class="confidence-badge confidence-mid">Uncertain</span></li>
+              <li>We can hire the right staff in time <span class="confidence-badge confidence-low">Risky</span></li>
+              <li>Existing programs won't suffer from divided attention <span class="confidence-badge confidence-low">Risky</span></li>
+              <li>There is demonstrated community demand for these programs <span class="confidence-badge confidence-high">Confident</span></li>
+              <li>Partners will collaborate as planned <span class="confidence-badge confidence-mid">Uncertain</span></li>
+            </ul>
+          </div>
+
+          <h3>The confidence matrix</h3>
+          <p>After listing assumptions, plot them on this 2x2 grid. Focus your plan revision energy on the upper-right quadrant: high-impact assumptions you're not confident about.</p>
+
+          <div class="matrix">
+            <div class="matrix-label-row">
+              <div class="matrix-label">High impact + Confident</div>
+              <div class="matrix-label">High impact + Uncertain</div>
+            </div>
+            <div class="matrix-cell">
+              <div class="matrix-cell-label">Monitor</div>
+              <p style="font-size: 0.85rem; color: var(--text-light); margin: 0;">These are load-bearing and you believe they're solid. Keep an eye on them but don't lose sleep.</p>
+            </div>
+            <div class="matrix-cell" style="background: color-mix(in srgb, var(--accent-debate) 6%, white);">
+              <div class="matrix-cell-label" style="color: var(--accent-debate);">Address now</div>
+              <p style="font-size: 0.85rem; color: var(--text-light); margin: 0;">High stakes and you're not sure they're true. These need research, backup plans, or explicit discussion in the plan.</p>
+            </div>
+            <div class="matrix-label-row">
+              <div class="matrix-label">Low impact + Confident</div>
+              <div class="matrix-label">Low impact + Uncertain</div>
+            </div>
+            <div class="matrix-cell">
+              <div class="matrix-cell-label">Ignore</div>
+              <p style="font-size: 0.85rem; color: var(--text-light); margin: 0;">Low stakes and you're confident. Move on.</p>
+            </div>
+            <div class="matrix-cell">
+              <div class="matrix-cell-label">Watch</div>
+              <p style="font-size: 0.85rem; color: var(--text-light); margin: 0;">Not critical now, but if these turn out to be wrong, you might need to adjust. Revisit periodically.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="sidebar">
+          <div class="tip-box">
+            <h4>Facilitator tips</h4>
+            <ul>
+              <li>Push teams past the obvious. "We need funding" is an assumption, but so is "our board will approve this direction."</li>
+              <li>Look for assumptions about people's behavior: "staff will adopt new processes," "community members will show up."</li>
+              <li>Risky assumptions aren't bad &mdash; they just need to be acknowledged. A plan that pretends it has no risks is more fragile than one that names them.</li>
+              <li>If a goal has more than 3 "risky" assumptions, it might need a fundamentally different approach.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="debrief">
+      <div class="section-label">After the mapping</div>
+      <h2>Discussion prompts</h2>
+      <div class="discussion-prompts">
+        <div class="discussion-prompt">Which goal has the most risky assumptions? Should the plan address those risks explicitly?</div>
+        <div class="discussion-prompt">Are there any assumptions shared across multiple goals? If one fails, does the whole plan wobble?</div>
+        <div class="discussion-prompt">For each "risky" assumption: what would we do if it turns out to be wrong? Does the plan have a backup?</div>
+        <div class="discussion-prompt">Are there any assumptions we can test or validate before committing to the plan?</div>
+      </div>
+    </section>
+
+    <section class="section" id="customize">
+      <div class="section-label">Customize</div>
+      <h2>Your goals and assumptions</h2>
+      <p>List the goals from your plan that you want teams to analyze. Aim for 3-6 goals, one per team.</p>
+      <textarea class="customize-area" placeholder="Goal 1: [Goal from your plan]
+Key question: What would have to be true for this to succeed?
+
+Goal 2: [Goal from your plan]
+Key question: What would have to be true?
+
+Goal 3: [Goal from your plan]
+Key question: What would have to be true?"></textarea>
+      <div style="margin-top: 1rem;">
+        <button class="btn btn-primary" onclick="window.print()">Print this page</button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>Strategic plan workshop games &middot; <a href="index.html">Back to all games</a></p>
+  </footer>
+</body>
+</html>
