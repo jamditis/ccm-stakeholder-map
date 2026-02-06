@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="en" data-game="pokemon">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Goal battle &mdash; Strategic plan workshop</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <style>
+    .pixel { font-family: 'Press Start 2P', monospace; }
+
+    .pokemon-hero {
+      background: linear-gradient(180deg,
+        color-mix(in srgb, var(--accent-pokemon) 8%, var(--cream)) 0%,
+        var(--cream) 100%);
+    }
+    .pokemon-hero h1 { font-family: 'Press Start 2P', monospace; font-size: clamp(1.2rem, 3.5vw, 2rem); line-height: 1.6; }
+    .pokemon-hero .hero-badge { background: var(--accent-pokemon); color: white; }
+
+    .type-badge {
+      display: inline-block;
+      padding: 0.2rem 0.65rem;
+      border-radius: 4px;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.5rem;
+      letter-spacing: 0.05em;
+      color: white;
+      text-transform: uppercase;
+    }
+    .type-growth { background: #4CAF50; }
+    .type-equity { background: #9C27B0; }
+    .type-operations { background: #78909C; }
+    .type-community { background: #2196F3; }
+    .type-innovation { background: #FFC107; color: #333; }
+    .type-culture { background: #FF5722; }
+
+    .stat-row { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.4rem; }
+    .stat-label {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.5rem;
+      width: 4rem;
+      text-align: right;
+      color: var(--text-light);
+      flex-shrink: 0;
+    }
+    .stat-bar-bg {
+      flex: 1;
+      height: 12px;
+      background: var(--border);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .stat-bar-fill {
+      height: 100%;
+      border-radius: 2px;
+      transition: width 0.5s ease, background 0.3s;
+    }
+    .stat-val {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.5rem;
+      width: 1.5rem;
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    .goal-card {
+      background: var(--warm-white);
+      border: 3px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: var(--space-md);
+      max-width: 360px;
+      box-shadow: 0 4px 16px var(--shadow);
+    }
+    .goal-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.75rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 2px solid var(--border);
+    }
+    .goal-card-name {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.65rem;
+      line-height: 1.6;
+      max-width: 200px;
+    }
+    .goal-card-hp {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.55rem;
+      color: var(--accent-pokemon);
+    }
+    .goal-card-art {
+      background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 6%, var(--cream)), color-mix(in srgb, var(--accent) 15%, var(--cream)));
+      border-radius: var(--radius-sm);
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1rem;
+      font-size: 2.5rem;
+    }
+    .goal-card-desc {
+      font-size: 0.8rem;
+      color: var(--text-light);
+      margin-bottom: 1rem;
+      padding: 0.5rem;
+      background: var(--cream);
+      border-radius: var(--radius-sm);
+      font-style: italic;
+    }
+
+    .battle-scene {
+      background: linear-gradient(180deg, #87CEEB 0%, #90EE90 60%, #228B22 100%);
+      border-radius: var(--radius-md);
+      padding: var(--space-lg);
+      min-height: 200px;
+      overflow: hidden;
+    }
+    .battle-text-box {
+      background: var(--warm-white);
+      border: 3px solid #333;
+      border-radius: var(--radius-sm);
+      padding: 1rem;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.6rem;
+      line-height: 2;
+      margin-top: 1rem;
+    }
+
+    .challenge-deck {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1rem;
+      margin: var(--space-md) 0;
+    }
+    .challenge-card {
+      background: var(--warm-white);
+      border: 2px solid var(--accent-pokemon);
+      border-radius: var(--radius-md);
+      padding: var(--space-md);
+      position: relative;
+      overflow: hidden;
+    }
+    .challenge-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: var(--accent-pokemon);
+    }
+    .challenge-card h4 {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.6rem;
+      line-height: 1.8;
+      margin-bottom: 0.5rem;
+    }
+    .challenge-card .targets {
+      font-size: 0.8rem;
+      color: var(--text-light);
+      margin-top: 0.5rem;
+    }
+    .challenge-card .targets strong { color: var(--accent-pokemon); }
+
+    .battle-sim {
+      background: var(--cream);
+      border: 3px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: var(--space-md);
+      margin: var(--space-md) 0;
+      text-align: center;
+    }
+    .battle-sim .draw-btn {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.65rem;
+      padding: 0.8rem 1.5rem;
+      background: var(--accent-pokemon);
+      color: white;
+      border: none;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .battle-sim .draw-btn:hover {
+      filter: brightness(1.15);
+      transform: translateY(-2px);
+    }
+    .battle-result {
+      margin-top: var(--space-md);
+      padding: var(--space-md);
+      background: var(--warm-white);
+      border: 2px solid var(--border);
+      border-radius: var(--radius-sm);
+      text-align: left;
+      display: none;
+    }
+    .battle-result.active { display: block; }
+    .battle-result h4 {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.6rem;
+      line-height: 1.8;
+      margin-bottom: 0.75rem;
+      color: var(--accent-pokemon);
+    }
+
+    .builder {
+      background: var(--warm-white);
+      border: 3px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: var(--space-lg);
+      margin: var(--space-md) 0;
+    }
+    .builder-grid {
+      display: grid;
+      grid-template-columns: 1fr 360px;
+      gap: var(--space-lg);
+      align-items: start;
+    }
+    .builder-input-group { margin-bottom: 1rem; }
+    .builder-input-group label {
+      display: block;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.5rem;
+      margin-bottom: 0.4rem;
+      color: var(--text-light);
+    }
+    .builder-input-group input[type="text"],
+    .builder-input-group select {
+      width: 100%;
+      padding: 0.5rem;
+      border: 2px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      background: var(--cream);
+    }
+    .builder-input-group input[type="text"]:focus,
+    .builder-input-group select:focus { outline: none; border-color: var(--accent); }
+    .slider-row {
+      display: grid;
+      grid-template-columns: 5rem 1fr 2rem;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.6rem;
+    }
+    .slider-row label {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.45rem;
+      text-align: right;
+      color: var(--text-light);
+    }
+    .slider-row input[type="range"] { width: 100%; accent-color: var(--accent); }
+    .slider-row .slider-val {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.55rem;
+      text-align: center;
+    }
+
+    @media (max-width: 768px) {
+      .builder-grid { grid-template-columns: 1fr; }
+      .goal-card { max-width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-brand">Workshop games</a>
+      <ul class="nav-links">
+        <li><a href="word-games.html">Word games</a></li>
+        <li><a href="priority-auction.html">Priority auction</a></li>
+        <li><a href="devils-advocate.html">Devil's advocate</a></li>
+        <li><a href="stakeholder-lens.html">Stakeholder lens</a></li>
+        <li><a href="assumption-mapper.html">Assumption mapper</a></li>
+        <li><a href="plan-remix.html">Plan remix</a></li>
+        <li><a href="pokemon-battle.html" class="active">Goal battle</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="container">
+    <a href="index.html" class="back-link">&larr; All games</a>
+
+    <section class="hero pokemon-hero">
+      <div class="hero-badge">Pokemon-style battle</div>
+      <h1>Goal battle</h1>
+      <p class="hero-subtitle">Each goal in your strategic plan becomes a creature with stats. Real-world challenges attack them. The goals that faint need strengthening. The ones that survive are ready.</p>
+      <div class="hero-meta">
+        <span class="hero-meta-item">35-45 minutes</span>
+        <span class="hero-meta-item">Best with 6-20 people</span>
+        <span class="hero-meta-item">Zoom-friendly</span>
+      </div>
+    </section>
+
+    <section class="section" id="concept">
+      <div class="section-label">The concept</div>
+      <h2>Your goals have stats</h2>
+      <p>In Pokemon, every creature has strengths and weaknesses expressed through stats. Your strategic plan's goals are the same &mdash; they're just not usually measured that way. This game changes that.</p>
+      <p>Teams read the plan, pick goals, and rate them on six stats. Then challenges are drawn at random, each targeting specific stats. If a goal's stat is too low, it takes damage. Goals that "faint" need to be evolved &mdash; revised to cover their weaknesses.</p>
+
+      <h3>The six stats</h3>
+      <div class="card" style="margin: var(--space-md) 0; overflow-x: auto;">
+        <table class="bid-table">
+          <thead>
+            <tr>
+              <th>Stat</th>
+              <th>Planning dimension</th>
+              <th>What it measures</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="pixel" style="font-size: 0.55rem; color: #e53935;">HP</span></td>
+              <td>Sustainability</td>
+              <td>Can this goal survive setbacks and stay funded long-term?</td>
+            </tr>
+            <tr>
+              <td><span class="pixel" style="font-size: 0.55rem; color: #F57C00;">ATK</span></td>
+              <td>Impact</td>
+              <td>How much measurable positive change does this create?</td>
+            </tr>
+            <tr>
+              <td><span class="pixel" style="font-size: 0.55rem; color: #FDD835;">DEF</span></td>
+              <td>Evidence</td>
+              <td>Is this backed by data, research, or past success?</td>
+            </tr>
+            <tr>
+              <td><span class="pixel" style="font-size: 0.55rem; color: #42A5F5;">SP.ATK</span></td>
+              <td>Ambition</td>
+              <td>How bold or forward-thinking is this approach?</td>
+            </tr>
+            <tr>
+              <td><span class="pixel" style="font-size: 0.55rem; color: #66BB6A;">SP.DEF</span></td>
+              <td>Buy-in</td>
+              <td>How much support from staff, board, and stakeholders?</td>
+            </tr>
+            <tr>
+              <td><span class="pixel" style="font-size: 0.55rem; color: #EC407A;">SPD</span></td>
+              <td>Feasibility</td>
+              <td>Can we realistically pull this off in the timeframe?</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Goal types</h3>
+      <p>Like Pokemon types, each goal gets a type based on its primary focus. Types help teams categorize and discuss goals.</p>
+      <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin: var(--space-sm) 0;">
+        <span class="type-badge type-growth">Growth</span>
+        <span class="type-badge type-equity">Equity</span>
+        <span class="type-badge type-operations">Operations</span>
+        <span class="type-badge type-community">Community</span>
+        <span class="type-badge type-innovation">Innovation</span>
+        <span class="type-badge type-culture">Culture</span>
+      </div>
+    </section>
+
+    <section class="section" id="example-card">
+      <div class="section-label">What a goal looks like</div>
+      <h2>Example goal card</h2>
+
+      <div class="goal-card" style="margin: var(--space-md) 0;">
+        <div class="goal-card-header">
+          <div>
+            <div class="goal-card-name">Community Outreach</div>
+            <span class="type-badge type-community" style="margin-top: 0.3rem;">Community</span>
+          </div>
+          <div class="goal-card-hp">HP 70</div>
+        </div>
+        <div class="goal-card-art">&#127758;</div>
+        <div class="goal-card-desc">"Increase community engagement by 40% through expanded programming and partnerships."</div>
+        <div class="stat-row"><span class="stat-label">HP</span><div class="stat-bar-bg"><div class="stat-bar-fill" style="width:70%; background: #4CAF50;"></div></div><span class="stat-val">7</span></div>
+        <div class="stat-row"><span class="stat-label">ATK</span><div class="stat-bar-bg"><div class="stat-bar-fill" style="width:80%; background: #4CAF50;"></div></div><span class="stat-val">8</span></div>
+        <div class="stat-row"><span class="stat-label">DEF</span><div class="stat-bar-bg"><div class="stat-bar-fill" style="width:40%; background: #e53935;"></div></div><span class="stat-val">4</span></div>
+        <div class="stat-row"><span class="stat-label">SP.ATK</span><div class="stat-bar-bg"><div class="stat-bar-fill" style="width:60%; background: #FDD835;"></div></div><span class="stat-val">6</span></div>
+        <div class="stat-row"><span class="stat-label">SP.DEF</span><div class="stat-bar-bg"><div class="stat-bar-fill" style="width:50%; background: #FDD835;"></div></div><span class="stat-val">5</span></div>
+        <div class="stat-row"><span class="stat-label">SPD</span><div class="stat-bar-bg"><div class="stat-bar-fill" style="width:30%; background: #e53935;"></div></div><span class="stat-val">3</span></div>
+      </div>
+      <p style="font-size: 0.9rem; color: var(--text-light);"><strong>Reading this card:</strong> Community Outreach has strong impact (ATK: 8) and decent sustainability (HP: 7), but weak evidence (DEF: 4) and poor feasibility (SPD: 3). A "budget cuts" challenge targeting HP and SPD would hurt this goal.</p>
+    </section>
+
+    <section class="section" id="how">
+      <div class="section-label">How to run it</div>
+      <h2>Step by step</h2>
+
+      <div class="activity-layout">
+        <div>
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="timeline-time">0:00 &mdash; 0:05</div>
+              <div class="timeline-title">Choose your team</div>
+              <div class="timeline-desc">Each small group (2-4 people) picks 3 goals from the plan. These are their "team." Pick goals you care about or goals you're skeptical of &mdash; either works.</div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-time">0:05 &mdash; 0:15</div>
+              <div class="timeline-title">Build stat cards</div>
+              <div class="timeline-desc">In breakout rooms, teams read the plan closely and rate each goal on all 6 stats (1-10). Use the card builder below or a shared doc. Rate the plan as written, not aspirations.</div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-time">0:15 &mdash; 0:20</div>
+              <div class="timeline-title">Stat reveal</div>
+              <div class="timeline-desc">Teams present their goal cards. If multiple teams rated the same goal differently, pause and discuss: why the disagreement? That's a sign the plan is ambiguous.</div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-time">0:20 &mdash; 0:35</div>
+              <div class="timeline-title">Battle rounds</div>
+              <div class="timeline-desc">Facilitator draws challenge cards one at a time (use the simulator below). Each challenge targets 2 stats. Any goal with a targeted stat below 5 takes damage. Run 4-5 rounds.</div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-time">0:35 &mdash; 0:45</div>
+              <div class="timeline-title">Evolution round</div>
+              <div class="timeline-desc">For each goal that took damage, teams propose an "evolution" &mdash; a specific revision to the plan that would raise the weak stat. Present evolutions to the group.</div>
+            </div>
+          </div>
+
+          <h3>Battle rules</h3>
+          <div class="card" style="margin: var(--space-md) 0;">
+            <ul style="padding-left: 1.2rem;">
+              <li style="margin-bottom: 0.5rem;"><strong>Stats 1-4:</strong> Red bar. This goal is weak here. Any challenge targeting this stat does damage.</li>
+              <li style="margin-bottom: 0.5rem;"><strong>Stats 5-7:</strong> Yellow bar. Average. The goal survives, but barely.</li>
+              <li style="margin-bottom: 0.5rem;"><strong>Stats 8-10:</strong> Green bar. Strong. Challenge has no effect.</li>
+              <li style="margin-bottom: 0.5rem;"><strong>Fainted:</strong> If a goal takes damage 3+ times across all rounds, it has fainted. It needs an evolution.</li>
+              <li style="margin-bottom: 0.5rem;"><strong>Evolution:</strong> A specific, concrete change to the plan that would raise a weak stat by at least 2 points.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="sidebar">
+          <div class="tip-box">
+            <h4>Facilitator tips</h4>
+            <ul>
+              <li>People will debate stat ratings. That's the point. Don't rush past disagreements &mdash; they reveal different readings of the plan.</li>
+              <li>Low stats aren't failures. They're honest assessments. Reward teams for giving low ratings when warranted.</li>
+              <li>For battle rounds, build drama. Read the challenge name with flair. Pause before revealing which stats it targets.</li>
+              <li>The evolution round is the highest-value part. Save enough time for it.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="challenges">
+      <div class="section-label">The challenge deck</div>
+      <h2>Challenges your goals will face</h2>
+      <p>Each challenge targets two stats. Draw these randomly during battle rounds or pick the most relevant ones.</p>
+
+      <div class="challenge-deck">
+        <div class="challenge-card">
+          <h4>Budget crunch</h4>
+          <p style="font-size: 0.85rem;">Funding gets cut by 20%. Only goals with strong financial foundations survive.</p>
+          <div class="targets">Targets: <strong>HP</strong> (Sustainability) and <strong>SPD</strong> (Feasibility)</div>
+        </div>
+        <div class="challenge-card">
+          <h4>Staff exodus</h4>
+          <p style="font-size: 0.85rem;">Two key staff members leave. Goals that depend on specific people are exposed.</p>
+          <div class="targets">Targets: <strong>SP.DEF</strong> (Buy-in) and <strong>SPD</strong> (Feasibility)</div>
+        </div>
+        <div class="challenge-card">
+          <h4>Skeptical funder</h4>
+          <p style="font-size: 0.85rem;">A major funder asks for evidence that your approach works. "We believe it will" isn't enough.</p>
+          <div class="targets">Targets: <strong>DEF</strong> (Evidence) and <strong>ATK</strong> (Impact)</div>
+        </div>
+        <div class="challenge-card">
+          <h4>Scope creep</h4>
+          <p style="font-size: 0.85rem;">Leadership adds new priorities mid-year. Goals already stretched thin break first.</p>
+          <div class="targets">Targets: <strong>SPD</strong> (Feasibility) and <strong>HP</strong> (Sustainability)</div>
+        </div>
+        <div class="challenge-card">
+          <h4>Community pushback</h4>
+          <p style="font-size: 0.85rem;">The people you serve say "this isn't what we need." Goals without input take the hit.</p>
+          <div class="targets">Targets: <strong>SP.DEF</strong> (Buy-in) and <strong>DEF</strong> (Evidence)</div>
+        </div>
+        <div class="challenge-card">
+          <h4>Leadership change</h4>
+          <p style="font-size: 0.85rem;">A new executive arrives with different priorities. Goals not anchored to the mission drift.</p>
+          <div class="targets">Targets: <strong>HP</strong> (Sustainability) and <strong>SP.ATK</strong> (Ambition)</div>
+        </div>
+        <div class="challenge-card">
+          <h4>Tech failure</h4>
+          <p style="font-size: 0.85rem;">A key system breaks or a platform changes its terms. Tech-dependent goals stumble.</p>
+          <div class="targets">Targets: <strong>SPD</strong> (Feasibility) and <strong>SP.ATK</strong> (Ambition)</div>
+        </div>
+        <div class="challenge-card">
+          <h4>Media spotlight</h4>
+          <p style="font-size: 0.85rem;">A journalist writes about your plan. Goals without clear metrics get called out.</p>
+          <div class="targets">Targets: <strong>DEF</strong> (Evidence) and <strong>ATK</strong> (Impact)</div>
+        </div>
+        <div class="challenge-card">
+          <h4>Partner withdrawal</h4>
+          <p style="font-size: 0.85rem;">A key partner pulls out of a collaboration. Goals relying on external orgs are exposed.</p>
+          <div class="targets">Targets: <strong>SP.DEF</strong> (Buy-in) and <strong>HP</strong> (Sustainability)</div>
+        </div>
+        <div class="challenge-card">
+          <h4>Competitor move</h4>
+          <p style="font-size: 0.85rem;">Another org launches a similar program. Undifferentiated goals lose momentum.</p>
+          <div class="targets">Targets: <strong>SP.ATK</strong> (Ambition) and <strong>ATK</strong> (Impact)</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="simulator">
+      <div class="section-label">Interactive tool</div>
+      <h2>Battle simulator</h2>
+      <p>Use this during the session. Click to draw a random challenge. Check each team's goals against the targeted stats.</p>
+
+      <div class="battle-sim">
+        <div class="battle-scene">
+          <div class="battle-text-box" id="battle-text">A wild challenge appeared! Press the button to draw...</div>
+        </div>
+        <button class="draw-btn" id="draw-btn" style="margin-top: 1rem;">Draw challenge</button>
+        <div class="battle-result" id="battle-result"></div>
+      </div>
+    </section>
+
+    <section class="section" id="builder">
+      <div class="section-label">Interactive tool</div>
+      <h2>Goal card builder</h2>
+      <p>Build a stat card for one of your plan's goals. Adjust the sliders and watch the card update live.</p>
+
+      <div class="builder">
+        <div class="builder-grid">
+          <div>
+            <div class="builder-input-group">
+              <label>Goal name</label>
+              <input type="text" id="b-name" value="Your goal here">
+            </div>
+            <div class="builder-input-group">
+              <label>Type</label>
+              <select id="b-type">
+                <option value="growth">Growth</option>
+                <option value="equity">Equity</option>
+                <option value="operations">Operations</option>
+                <option value="community" selected>Community</option>
+                <option value="innovation">Innovation</option>
+                <option value="culture">Culture</option>
+              </select>
+            </div>
+            <div class="builder-input-group">
+              <label>Description (from the plan)</label>
+              <input type="text" id="b-desc" value="Paste the goal's description from the plan">
+            </div>
+            <div style="margin-top: 1.5rem;">
+              <div class="slider-row"><label>HP</label><input type="range" min="1" max="10" value="5" id="s-hp"><span class="slider-val" id="v-hp">5</span></div>
+              <div class="slider-row"><label>ATK</label><input type="range" min="1" max="10" value="5" id="s-atk"><span class="slider-val" id="v-atk">5</span></div>
+              <div class="slider-row"><label>DEF</label><input type="range" min="1" max="10" value="5" id="s-def"><span class="slider-val" id="v-def">5</span></div>
+              <div class="slider-row"><label>SP.ATK</label><input type="range" min="1" max="10" value="5" id="s-spatk"><span class="slider-val" id="v-spatk">5</span></div>
+              <div class="slider-row"><label>SP.DEF</label><input type="range" min="1" max="10" value="5" id="s-spdef"><span class="slider-val" id="v-spdef">5</span></div>
+              <div class="slider-row"><label>SPD</label><input type="range" min="1" max="10" value="5" id="s-spd"><span class="slider-val" id="v-spd">5</span></div>
+            </div>
+          </div>
+
+          <div>
+            <div class="goal-card" id="live-card">
+              <div class="goal-card-header">
+                <div>
+                  <div class="goal-card-name" id="card-name">Your goal here</div>
+                  <span class="type-badge type-community" id="card-type">Community</span>
+                </div>
+                <div class="goal-card-hp" id="card-hp">HP 50</div>
+              </div>
+              <div class="goal-card-art" id="card-art">&#127919;</div>
+              <div class="goal-card-desc" id="card-desc">"Paste the goal's description from the plan"</div>
+              <div id="card-stats"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="debrief">
+      <div class="section-label">After the battles</div>
+      <h2>Discussion prompts</h2>
+      <div class="discussion-prompts">
+        <div class="discussion-prompt">Which goal survived the most challenges? What makes it strong? Is the plan giving it enough attention?</div>
+        <div class="discussion-prompt">Which goal fainted fastest? Does the plan need to strengthen it or let it go?</div>
+        <div class="discussion-prompt">Were any stats consistently low across multiple goals? That's a systemic weakness in the plan.</div>
+        <div class="discussion-prompt">Look at the proposed evolutions: are they realistic? Would they actually raise the stats they claim to?</div>
+        <div class="discussion-prompt">If the plan were a Pokemon team, is it balanced? Or are all goals the same type with the same weaknesses?</div>
+      </div>
+    </section>
+
+    <section class="section" id="customize">
+      <div class="section-label">Customize</div>
+      <h2>Your challenge deck</h2>
+      <p>Add challenges specific to your organization. Think about the real threats your plan will face.</p>
+      <textarea class="customize-area" placeholder="Challenge: [Name]
+Description: [What happens]
+Targets: [Stat 1] and [Stat 2]
+
+Challenge: [Name]
+Description: [What happens]
+Targets: [Stat 1] and [Stat 2]"></textarea>
+      <div style="margin-top: 1rem;">
+        <button class="btn btn-primary" onclick="window.print()">Print this page</button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>Strategic plan workshop games &middot; <a href="index.html">Back to all games</a></p>
+  </footer>
+
+  <script>
+    // ── Challenge deck and battle simulator ──
+    var challenges = [
+      { name: 'Budget crunch', desc: 'Funding gets cut by 20%. Only goals with strong financial foundations survive.', targets: ['HP', 'SPD'], dims: ['Sustainability', 'Feasibility'] },
+      { name: 'Staff exodus', desc: 'Two key staff members leave. Goals that depend on specific people are exposed.', targets: ['SP.DEF', 'SPD'], dims: ['Buy-in', 'Feasibility'] },
+      { name: 'Skeptical funder', desc: 'A major funder asks for evidence. "We believe it will" is not enough.', targets: ['DEF', 'ATK'], dims: ['Evidence', 'Impact'] },
+      { name: 'Scope creep', desc: 'Leadership adds new priorities mid-year. Stretched goals break first.', targets: ['SPD', 'HP'], dims: ['Feasibility', 'Sustainability'] },
+      { name: 'Community pushback', desc: 'The community says this is not what they need. Goals without input take the hit.', targets: ['SP.DEF', 'DEF'], dims: ['Buy-in', 'Evidence'] },
+      { name: 'Leadership change', desc: 'A new executive arrives with different priorities. Unanchored goals drift.', targets: ['HP', 'SP.ATK'], dims: ['Sustainability', 'Ambition'] },
+      { name: 'Tech failure', desc: 'A key system breaks or a platform changes terms.', targets: ['SPD', 'SP.ATK'], dims: ['Feasibility', 'Ambition'] },
+      { name: 'Media spotlight', desc: 'A journalist writes about your plan. Goals without metrics get called out.', targets: ['DEF', 'ATK'], dims: ['Evidence', 'Impact'] },
+      { name: 'Partner withdrawal', desc: 'A key partner pulls out. Goals relying on external orgs are exposed.', targets: ['SP.DEF', 'HP'], dims: ['Buy-in', 'Sustainability'] },
+      { name: 'Competitor move', desc: 'Another org launches a similar program. Undifferentiated goals lose momentum.', targets: ['SP.ATK', 'ATK'], dims: ['Ambition', 'Impact'] }
+    ];
+
+    var usedChallenges = [];
+
+    document.getElementById('draw-btn').addEventListener('click', function() {
+      if (usedChallenges.length >= challenges.length) {
+        usedChallenges = [];
+      }
+      var available = challenges.filter(function(_, i) { return usedChallenges.indexOf(i) === -1; });
+      var pick = available[Math.floor(Math.random() * available.length)];
+      var idx = challenges.indexOf(pick);
+      usedChallenges.push(idx);
+
+      var textBox = document.getElementById('battle-text');
+      textBox.textContent = 'A wild challenge appeared! ...';
+
+      setTimeout(function() {
+        textBox.textContent = 'A wild ' + pick.name + ' appeared! ' + pick.desc;
+      }, 600);
+
+      setTimeout(function() {
+        var result = document.getElementById('battle-result');
+        result.className = 'battle-result active';
+
+        // Build result using DOM methods
+        while (result.firstChild) result.removeChild(result.firstChild);
+
+        var h4 = document.createElement('h4');
+        h4.textContent = pick.name;
+        result.appendChild(h4);
+
+        var pTargets = document.createElement('p');
+        pTargets.appendChild(document.createTextNode('Targets: '));
+        var s1 = document.createElement('strong');
+        s1.textContent = pick.targets[0] + ' (' + pick.dims[0] + ')';
+        pTargets.appendChild(s1);
+        pTargets.appendChild(document.createTextNode(' and '));
+        var s2 = document.createElement('strong');
+        s2.textContent = pick.targets[1] + ' (' + pick.dims[1] + ')';
+        pTargets.appendChild(s2);
+        result.appendChild(pTargets);
+
+        var pInstr = document.createElement('p');
+        pInstr.style.cssText = 'font-size: 0.9rem; color: var(--text-light); margin-top: 0.75rem;';
+        pInstr.textContent = 'Check each team\'s goals: any goal with ' + pick.targets[0] + ' or ' + pick.targets[1] + ' below 5 takes damage. Mark it on your card.';
+        result.appendChild(pInstr);
+
+        var pRound = document.createElement('p');
+        pRound.style.cssText = 'font-size: 0.85rem; color: var(--text-muted); margin-top: 0.5rem;';
+        pRound.textContent = '(Round ' + usedChallenges.length + ' of ' + challenges.length + ')';
+        result.appendChild(pRound);
+      }, 1200);
+    });
+
+    // ── Card builder ──
+    var typeIcons = { growth: '\uD83C\uDF31', equity: '\u2696', operations: '\u2699', community: '\uD83C\uDF0E', innovation: '\u26A1', culture: '\uD83D\uDD25' };
+    var typeLabels = { growth: 'Growth', equity: 'Equity', operations: 'Operations', community: 'Community', innovation: 'Innovation', culture: 'Culture' };
+    var statNames = ['HP', 'ATK', 'DEF', 'SP.ATK', 'SP.DEF', 'SPD'];
+    var statKeys = ['hp', 'atk', 'def', 'spatk', 'spdef', 'spd'];
+
+    function statColor(val) {
+      if (val <= 4) return '#e53935';
+      if (val <= 7) return '#FDD835';
+      return '#4CAF50';
+    }
+
+    function updateCard() {
+      var name = document.getElementById('b-name').value;
+      var type = document.getElementById('b-type').value;
+      var desc = document.getElementById('b-desc').value;
+
+      var stats = {};
+      statKeys.forEach(function(k) {
+        stats[k] = parseInt(document.getElementById('s-' + k).value, 10);
+        document.getElementById('v-' + k).textContent = stats[k];
+      });
+
+      document.getElementById('card-name').textContent = name;
+      document.getElementById('card-hp').textContent = 'HP ' + (stats.hp * 10);
+      document.getElementById('card-desc').textContent = '"' + desc + '"';
+      document.getElementById('card-art').textContent = typeIcons[type] || '\uD83C\uDFAF';
+
+      var typeBadge = document.getElementById('card-type');
+      typeBadge.textContent = typeLabels[type];
+      typeBadge.className = 'type-badge type-' + type;
+
+      // Build stat bars using DOM methods
+      var container = document.getElementById('card-stats');
+      while (container.firstChild) container.removeChild(container.firstChild);
+
+      statKeys.forEach(function(k, i) {
+        var v = stats[k];
+        var row = document.createElement('div');
+        row.className = 'stat-row';
+
+        var label = document.createElement('span');
+        label.className = 'stat-label';
+        label.textContent = statNames[i];
+
+        var barBg = document.createElement('div');
+        barBg.className = 'stat-bar-bg';
+        var barFill = document.createElement('div');
+        barFill.className = 'stat-bar-fill';
+        barFill.style.width = (v * 10) + '%';
+        barFill.style.background = statColor(v);
+        barBg.appendChild(barFill);
+
+        var val = document.createElement('span');
+        val.className = 'stat-val';
+        val.textContent = v;
+
+        row.appendChild(label);
+        row.appendChild(barBg);
+        row.appendChild(val);
+        container.appendChild(row);
+      });
+    }
+
+    // Bind inputs
+    ['b-name', 'b-type', 'b-desc'].concat(statKeys.map(function(k) { return 's-' + k; }))
+      .forEach(function(id) {
+        document.getElementById(id).addEventListener('input', updateCard);
+        document.getElementById(id).addEventListener('change', updateCard);
+      });
+
+    // Initial render
+    updateCard();
+  </script>
+</body>
+</html>

@@ -16,6 +16,7 @@
   --accent-stakeholder: #6b7f9e;
   --accent-assumption: #9e8b6b;
   --accent-remix: #8b6b9e;
+  --accent-pokemon: #cc3333;
 
   --accent: var(--accent-word);
   --accent-light: color-mix(in srgb, var(--accent) 15%, white);
@@ -38,6 +39,7 @@
 [data-game="stakeholder"] { --accent: var(--accent-stakeholder); }
 [data-game="assumption"] { --accent: var(--accent-assumption); }
 [data-game="remix"] { --accent: var(--accent-remix); }
+[data-game="pokemon"] { --accent: var(--accent-pokemon); }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
