@@ -316,8 +316,8 @@ const Export = {
    * Note: User data is JSON-serialized and parsed at runtime, not interpolated into HTML
    */
   generateStandaloneHTML(map) {
-    // JSON.stringify handles escaping for embedding in script tag
-    const jsonData = JSON.stringify(map);
+    // JSON.stringify + escape closing tags to prevent XSS via </script> in user data
+    const jsonData = JSON.stringify(map).replace(/<\//g, '<\\/');
     const escapedName = this.escapeHtml(map.name);
     const escapedSector = this.escapeHtml(Templates.getSector(map.sector).name);
 
