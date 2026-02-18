@@ -1,4 +1,15 @@
 <!DOCTYPE html>
+<!--
+  ccm stakeholder map — jamditis.github.io/ccm-stakeholder-map/
+  an interactive tool for mapping allies, obstacles, and relationships.
+  used by the center for cooperative media for strategic planning and workshop facilitation.
+
+  if you're inspecting the source: you're exactly the kind of person
+  who should be doing stakeholder analysis. go make a map.
+
+  stack: vanilla js + svg canvas + tailwind cdn + localStorage (no backend)
+  built by: joe amditis  —  jamditis@gmail.com
+-->
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -970,6 +981,14 @@
   <!-- Hidden import inputs -->
   <input type="file" id="import-file-input" accept=".json" class="hidden">
   <input type="file" id="import-csv-input" accept=".csv" class="hidden">
+
+  <!-- Easter egg for the curious -->
+  <script>
+    console.log('%c CCM stakeholder map ', 'background: #1a1a1a; color: #2d9d5d; font-weight: bold; font-size: 16px; padding: 4px 8px; border-radius: 4px;')
+    console.log('%c map allies, obstacles, and relationships for strategic planning', 'color: #8a8580; font-style: italic; font-size: 13px;')
+    console.log('%c stack: vanilla js · svg canvas · tailwind cdn · localstorage', 'color: #aaa; font-size: 11px;')
+    console.log('%c built by joe amditis  —  jamditis@gmail.com  —  centerforcooperativemedia.org', 'color: #aaa; font-size: 11px;')
+  </script>
 
   <!-- Scripts -->
   <script src="js/storage.js"></script>
