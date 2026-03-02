@@ -54,12 +54,42 @@ Pre-built starting points for common CCM areas:
 - Mark entire maps as private (adds watermark to exports)
 - Hide sensitive notes on individual stakeholders in shared exports
 
+## Import options
+
+### CSV (recommended for spreadsheet users)
+1. Download `import-template.csv` from the app's import menu
+2. Fill it out in Excel or Google Sheets
+3. Import directly in the browser — no extra tools needed
+
+A Python converter (`csv_to_json.py`) is also available for command-line workflows.
+
+### JSON
+Import `.json` files directly. Supports single maps or bulk import of multiple maps. See `import-template.json` for the expected format.
+
+## Workshop games toolkit
+
+**[Browse the games →](https://jamditis.github.io/ccm-stakeholder-map/workshop-games/)**
+
+A set of 7 interactive games for teams working through a strategic plan together. Each game is a standalone HTML page with facilitator instructions, timers, and interactive elements.
+
+| Game | Time | What it does |
+|------|------|-------------|
+| **Word games** | 30-35 min | Scavenger hunt, six-word summaries, and found poetry to force close reading |
+| **Priority auction** | 25-30 min | $100 fake currency per person — bid on goals to reveal real priorities |
+| **Devil's advocate** | 30-40 min | Structured debate where teams argue against strategies to stress-test the plan |
+| **Stakeholder lens** | 25-35 min | Role-play as different stakeholders (funder, community member, etc.) reading the plan |
+| **Assumption mapper** | 25-30 min | Uncover hidden assumptions and rate confidence levels |
+| **Plan remix** | 30-40 min | Cut 2 things, add 1, rewrite 1 — then vote on the best remixes |
+| **Goal battle** | 35-45 min | Pokemon-style game where goals become creatures with stats like Feasibility and Buy-in |
+
+All games are designed for in-person or hybrid workshops and include print-friendly layouts.
+
 ## Usage
 
 1. **Create a map** — Click "New map" or select a template
 2. **Add stakeholders** — Use the "+ Add stakeholder" button or double-click the canvas
 3. **Arrange your map** — Drag nodes to meaningful positions
-4. **Add connections** — Right-click a node and select "Add connection"
+4. **Add connections** — Hover a node and click the connect button, or right-click and select "Add connection"
 5. **Export** — Generate a PDF field guide or share as standalone HTML
 
 ## Local development
@@ -94,16 +124,29 @@ python3 -m http.server 8000 --directory docs
 
 ```
 ccm-stakeholder-map/
-├── docs/                    # GitHub Pages source
-│   ├── index.html           # Main app
-│   ├── css/styles.css       # Custom styles
-│   └── js/
-│       ├── app.js           # Main controller
-│       ├── canvas.js        # SVG visualization
-│       ├── storage.js       # localStorage CRUD
-│       ├── templates.js     # Sector templates
-│       └── export.js        # PDF/HTML/MD generation
-├── CLAUDE.md                # AI assistant context
+├── docs/                        # GitHub Pages source
+│   ├── index.html               # Main app
+│   ├── css/styles.css           # Custom styles
+│   ├── js/
+│   │   ├── app.js               # Main controller
+│   │   ├── canvas.js            # SVG visualization
+│   │   ├── storage.js           # localStorage CRUD
+│   │   ├── templates.js         # Sector templates
+│   │   └── export.js            # PDF/HTML/MD generation
+│   ├── workshop-games/          # Strategic plan workshop toolkit
+│   │   ├── index.html           # Game hub / chooser
+│   │   ├── styles.css           # Shared game styles
+│   │   ├── word-games.html
+│   │   ├── priority-auction.html
+│   │   ├── devils-advocate.html
+│   │   ├── stakeholder-lens.html
+│   │   ├── assumption-mapper.html
+│   │   ├── plan-remix.html
+│   │   └── pokemon-battle.html  # Goal battle (Pokemon-style)
+│   ├── import-template.csv      # CSV template for spreadsheet import
+│   └── import-template.json     # JSON template for direct import
+├── csv_to_json.py               # Python CSV-to-JSON converter
+├── CLAUDE.md                    # AI assistant context
 └── README.md
 ```
 
