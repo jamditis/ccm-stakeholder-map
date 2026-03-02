@@ -174,7 +174,13 @@ python3 -m http.server 8000 --directory docs
 
 ## Deployment
 
-GitHub Pages is configured to build from the `/docs` folder on the `main` branch. Push to main and the site updates automatically.
+Deployed via Cloudflare Pages (personal account, direct upload from `/docs`).
+
+```bash
+bash deploy.sh    # uploads docs/ to ccm-stakeholder-map.pages.dev
+```
+
+**Pages URL:** https://ccm-stakeholder-map.pages.dev
 
 ## Common tasks
 
